@@ -15,37 +15,46 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
       android:id="@+id/tob"></android.support.v7.widget.Toolbar>
+
     <EditText
         android:id="@+id/txt_usr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"
+        android:layout_marginBottom="16dp"
+        android:drawableRight="@drawable/i1"
+        android:inputType="textEmailAddress"
+        android:hint="Email"
+        android:paddingBottom="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:layout_marginBottom="16dp"/>
+        android:paddingTop="16dp">
+
+        <requestFocus />
+    </EditText>
 
     <EditText
         android:id="@+id/txt_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:drawableRight="@drawable/i1"
         android:hint="Password"
         android:inputType="textPassword"
+        android:paddingBottom="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp" />
+        android:paddingTop="16dp" />
+
 
     <Button
         android:id="@+id/btn_sbt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="SUBMIT"
+        android:layout_marginTop="32dp"
+        android:paddingBottom="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:layout_marginTop="32dp"/>
+        android:text="LOGIN" />
+
 </LinearLayout>
