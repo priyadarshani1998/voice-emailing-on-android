@@ -357,7 +357,7 @@ public class VoiceEmailActivity extends AppCompatActivity {
                         }
                     });
 
-//compose message
+            //compose message
             txt_to = txt_to.replaceAll(" ","");
             txt_cc = txt_cc.replaceAll(" ","");
             Toast.makeText(getApplicationContext(),fr + " From Address " + txt_to + " To Address",Toast.LENGTH_LONG).show();
