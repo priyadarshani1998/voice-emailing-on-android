@@ -270,7 +270,12 @@ public class VoiceEmailActivity extends AppCompatActivity {
             Transport.send(message);
 
 
-                            Toast.makeText(getApplicationContext(),"Email Sent Successfully" ,Toast.LENGTH_LONG).show();;
+                            Toast.makeText(getApplicationContext(),"Email Sent Successfully" ,Toast.LENGTH_LONG).show();
+                            
+                            Intent gmailIntent = getPackageManager().getLaunchIntentForPackage("com.google.android.gm");
+
+                            if(gmailIntent!= null)
+                                startActivity(gmailIntent);
                         }catch(Exception e){
                             //e.printStackTrace();
                             Toast.makeText(getApplicationContext(),"Email Could not be Sent" + e.getMessage() ,Toast.LENGTH_LONG).show();;
