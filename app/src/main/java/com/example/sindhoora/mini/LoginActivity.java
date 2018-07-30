@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -58,6 +60,9 @@ public class LoginActivity extends AppCompatActivity {
 
         inputOnClickListener(editTxtFrom,EMAIL_VOICE_CODE);
         inputOnClickListener(editTxtPwd,PASSWORD_VOICE_CODE);
+
+        textChange(editTxtFrom);
+        textChange(editTxtPwd);
 
         btnSubmit.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
@@ -158,7 +163,33 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    private void textChange(final EditText eText) {
+
+        eText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+
+                if(charSequence.length()!=0) {
+                    Toast t = Toast.makeText(getApplicationContext(),
+                            "Clear Option can enable",
+                            Toast.LENGTH_SHORT);
+                    t.show();
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     @Override
@@ -215,6 +246,5 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     }
-
 
 }
