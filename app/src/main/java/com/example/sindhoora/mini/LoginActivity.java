@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Properties;
 
 import javax.mail.*;
@@ -27,9 +29,11 @@ import javax.mail.internet.*;
 
 public class LoginActivity extends AppCompatActivity {
 
+    final int VOICE_CODE = 100;
     private Button btnSubmit;
     public EditText editTxtFrom, editTxtPwd;
     String From = null, Pwd = null;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -131,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
     private void inputOnClickListener(EditText eText) {
 
         eText.setOnClickListener(new OnClickListener() {
@@ -142,7 +147,7 @@ public class LoginActivity extends AppCompatActivity {
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
 
                 try {
-                    startActivityForResult(intent, 1);
+                    startActivityForResult(intent, VOICE_CODE);
                 } catch (ActivityNotFoundException a) {
                     Toast t = Toast.makeText(getApplicationContext(),
                             "Ops! Your device doesn't support Speech to Text",
@@ -153,6 +158,39 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case VOICE_CODE: {
+                if (resultCode == RESULT_OK && null != data) {
+
+                    ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+                    for (String result : results) {
+                        if (result.equalsIgnoreCase("clear")) {
+                            try {
+
+                                From = editTxtFrom.getText().toString();
+                                Pwd = editTxtPwd.getText().toString();
+
+                            } catch (Exception e) {
+
+                                Toast.makeText(getApplicationContext(), "Couldn't login" + e.getMessage(), Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+
+                    }
+
+                }
+                break;
+            }
+
+        }
     }
 
 }
