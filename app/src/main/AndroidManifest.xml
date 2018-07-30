@@ -21,7 +21,7 @@
         <activity
             android:name=".LaunchPage"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_launch_page"
+            android:label="Voice Based E-mail"
             android:theme="@style/FullscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
