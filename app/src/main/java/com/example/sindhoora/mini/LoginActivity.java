@@ -29,7 +29,8 @@ import javax.mail.internet.*;
 
 public class LoginActivity extends AppCompatActivity {
 
-    final int VOICE_CODE = 100;
+    final int EMAIL_VOICE_CODE = 100;
+    final int PASSWORD_VOICE_CODE = 200;
     private Button btnSubmit;
     public EditText editTxtFrom, editTxtPwd;
     String From = null, Pwd = null;
@@ -55,8 +56,8 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         // getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        inputOnClickListener(editTxtFrom);
-        inputOnClickListener(editTxtPwd);
+        inputOnClickListener(editTxtFrom,EMAIL_VOICE_CODE);
+        inputOnClickListener(editTxtPwd,PASSWORD_VOICE_CODE);
 
         btnSubmit.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
@@ -136,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void inputOnClickListener(EditText eText) {
+    private void inputOnClickListener(EditText eText, final int code) {
 
         eText.setOnClickListener(new OnClickListener() {
             @Override
@@ -147,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
 
                 try {
-                    startActivityForResult(intent, VOICE_CODE);
+                    startActivityForResult(intent, code);
                 } catch (ActivityNotFoundException a) {
                     Toast t = Toast.makeText(getApplicationContext(),
                             "Ops! Your device doesn't support Speech to Text",
@@ -163,24 +164,46 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         switch (requestCode) {
-            case VOICE_CODE: {
+            case EMAIL_VOICE_CODE: {
                 if (resultCode == RESULT_OK && null != data) {
 
                     ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
                     for (String result : results) {
-                        if (result.equalsIgnoreCase("clear")) {
+                        if (!result.equalsIgnoreCase("clear")) {
                             try {
 
+                                editTxtFrom.setText(result);
+
                                 From = editTxtFrom.getText().toString();
+
+                            } catch (Exception e) {
+
+                                Toast.makeText(getApplicationContext(), "Couldn't enter email" + e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                    }
+
+                }
+                break;
+            }
+            case PASSWORD_VOICE_CODE: {
+                if (resultCode == RESULT_OK && null != data) {
+
+                    ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+                    for (String result : results) {
+                        if (!result.equalsIgnoreCase("clear")) {
+                            try {
+
+                                editTxtPwd.setText(result);
                                 Pwd = editTxtPwd.getText().toString();
 
                             } catch (Exception e) {
 
-                                Toast.makeText(getApplicationContext(), "Couldn't login" + e.getMessage(), Toast.LENGTH_LONG).show();
-
+                                Toast.makeText(getApplicationContext(), "Couldn't enter password" + e.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
 
@@ -192,5 +215,6 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     }
+
 
 }

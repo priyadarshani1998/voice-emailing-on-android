@@ -45,7 +45,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="goToLogin"
-                android:drawableLeft="@drawable/mic_icon"
+                android:drawableLeft="@drawable/user"
+                android:drawableStart="@drawable/user"
+                android:drawablePadding="-15dp"
                 android:text="Login to Send Mail" />
         </LinearLayout>
     </FrameLayout>
