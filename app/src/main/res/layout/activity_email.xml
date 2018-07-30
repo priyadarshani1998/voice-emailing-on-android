@@ -90,7 +90,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/voice_btn"
         android:layout_marginTop="180dp"
-        android:src="@drawable/i1"/>
+        android:src="@drawable/mic_icon"/>
 
     </TableLayout>
 
