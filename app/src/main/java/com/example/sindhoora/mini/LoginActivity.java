@@ -177,10 +177,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
 
                 if(charSequence.length()!=0) {
-                    Toast t = Toast.makeText(getApplicationContext(),
-                            "Clear Option can enable",
-                            Toast.LENGTH_SHORT);
-                    t.show();
+                    eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.icon_close), null);
+                }
+                else {
+                    eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.microphone), null);
+
                 }
 
             }
