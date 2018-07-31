@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LaunchPage"
+            android:name=".WelcomePage"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="Voice Based E-mail"
             android:theme="@style/FullscreenTheme">

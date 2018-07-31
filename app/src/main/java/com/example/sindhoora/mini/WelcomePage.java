@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 
-public class LaunchPage extends Activity {
+public class WelcomePage extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +17,7 @@ public class LaunchPage extends Activity {
 
     public void goToLogin(View view) {
 
-        Intent goToLogin = new Intent(LaunchPage.this, LoginActivity.class);
+        Intent goToLogin = new Intent(WelcomePage.this, LoginActivity.class);
 
         startActivity(goToLogin);
 
