@@ -1,4 +1,4 @@
-package com.example.mini;
+package com.bhanu.mini;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

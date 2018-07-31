@@ -10,16 +10,16 @@
         android:label="Voice E-Mail"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name="com.bhanu.mini.LoginActivity"
             android:label="Voice Based E-Mail">
         </activity>
-        <activity android:name=".VoiceEmailActivity">
+        <activity android:name="com.bhanu.mini.VoiceEmailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".WelcomePage"
+            android:name="com.bhanu.mini.WelcomePage"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="Voice Based E-Mail"
             android:theme="@style/FullscreenTheme">

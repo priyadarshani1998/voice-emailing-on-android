@@ -1,4 +1,4 @@
-package com.example.mini;
+package com.bhanu.mini;
 
 import android.content.ActivityNotFoundException;
 import android.os.Build;

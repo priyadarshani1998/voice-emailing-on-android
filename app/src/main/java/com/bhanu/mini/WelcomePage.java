@@ -1,4 +1,4 @@
-package com.example.mini;
+package com.bhanu.mini;
 
 import android.app.Activity;
 import android.content.Intent;

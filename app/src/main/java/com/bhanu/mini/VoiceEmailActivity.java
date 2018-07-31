@@ -1,4 +1,4 @@
-package com.example.mini;
+package com.bhanu.mini;
 
 import java.util.ArrayList;
 
@@ -245,9 +245,10 @@ public class VoiceEmailActivity extends AppCompatActivity {
                                 }
 
                                 Toast.makeText(getApplicationContext(),fr + " From Address " + txt_to + " To Address",Toast.LENGTH_LONG).show();
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(fr));//change accordingly
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(txt_to));
+
+                                MimeMessage message = new MimeMessage(session);
+                                message.setFrom(new InternetAddress(fr));//change accordingly
+                                message.addRecipient(Message.RecipientType.TO, new InternetAddress(txt_to));
                             if(txt_cc.trim().equals("")) {
 
                             } else{
@@ -266,7 +267,7 @@ public class VoiceEmailActivity extends AppCompatActivity {
                             
                             Intent gmailIntent = getPackageManager().getLaunchIntentForPackage("com.google.android.gm");
 
-                            if(gmailIntent!= null)
+                            if(gmailIntent != null)
                                 startActivity(gmailIntent);
                         }catch(Exception e){
                             //e.printStackTrace();
