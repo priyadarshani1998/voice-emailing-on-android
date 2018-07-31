@@ -1,4 +1,4 @@
-package com.example.sindhoora.mini;
+package com.example.mini;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,7 +12,7 @@ public class WelcomePage extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_launch_page);
+        setContentView(com.example.mini.R.layout.activity_launch_page);
     }
 
     public void goToLogin(View view) {

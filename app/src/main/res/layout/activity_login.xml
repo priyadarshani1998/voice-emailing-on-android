@@ -15,24 +15,35 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/tob"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.Toolbar>
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/txt_usr"
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:drawableLeft="@drawable/mail_icon"
-        android:drawablePadding="5dp"
-        android:drawableRight="@drawable/microphone"
-        android:drawableEnd="@drawable/microphone"
-        android:drawableStart="@drawable/mail_icon"
-        android:hint="Email"
-        android:imeOptions="actionNext"
-        android:inputType="textEmailAddress">
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/txt_usr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:drawableLeft="@drawable/mail_icon"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/microphone"
+            android:drawableEnd="@drawable/microphone"
+            android:drawableStart="@drawable/mail_icon"
+            android:hint="Email"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress">
 
-    </EditText>
+            <requestFocus />
+        </EditText>
 
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <EditText
         android:id="@+id/txt_pwd"
@@ -47,7 +58,7 @@
         android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:paddingBottom="16dp"/>
-
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/btn_sbt"

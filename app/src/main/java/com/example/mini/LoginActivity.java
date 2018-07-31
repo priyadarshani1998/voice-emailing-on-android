@@ -1,7 +1,6 @@
-package com.example.sindhoora.mini;
+package com.example.mini;
 
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
 import android.speech.RecognizerIntent;
@@ -12,18 +11,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Properties;
 
 import javax.mail.*;
@@ -40,26 +34,30 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+
+        setContentView(com.example.mini.R.layout.activity_login);
+
         if (Build.VERSION.SDK_INT > 9) {
+
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
 
-        editTxtFrom = (EditText) findViewById(R.id.txt_usr);
-        editTxtPwd = (EditText) findViewById(R.id.txt_pwd);
+        editTxtFrom = (EditText) findViewById(com.example.mini.R.id.txt_usr);
+        editTxtPwd = (EditText) findViewById(com.example.mini.R.id.txt_pwd);
+        btnSubmit = (Button) findViewById(com.example.mini.R.id.btn_sbt);
 
-        btnSubmit = (Button) findViewById(R.id.btn_sbt);
-        Toolbar t = (Toolbar) findViewById(R.id.tob);
-        t.setNavigationIcon(R.drawable.ic_action_name4);
+        Toolbar t = (Toolbar) findViewById(com.example.mini.R.id.tob);
+        t.setNavigationIcon(com.example.mini.R.drawable.ic_action_name4);
         t.setTitle("Login");
-        getSupportActionBar().setIcon(R.drawable.ic_action_name2);
+        getSupportActionBar().setIcon(com.example.mini.R.drawable.ic_action_name2);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         // getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        inputOnClickListener(editTxtFrom,EMAIL_VOICE_CODE);
-        inputOnClickListener(editTxtPwd,PASSWORD_VOICE_CODE);
+        inputOnClickListener(editTxtFrom, EMAIL_VOICE_CODE);
+        inputOnClickListener(editTxtPwd, PASSWORD_VOICE_CODE);
 
         textChange(editTxtFrom);
         textChange(editTxtPwd);
@@ -70,20 +68,24 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (editTxtFrom.getText().toString().contains("@") && (editTxtFrom.getText().toString().toLowerCase().contains("gmail.com") || editTxtFrom.getText().toString().toLowerCase().contains("yahoo.co"))) {
                     if (!editTxtPwd.getText().toString().equalsIgnoreCase("")) {
+
                         From = editTxtFrom.getText().toString();
                         Pwd = editTxtPwd.getText().toString();
 
-                        try {
+
+
                             Properties props = new Properties();
                             //Toast.makeText(getApplicationContext(),From+" "+Pwd+" Entered Port Authentication",Toast.LENGTH_LONG).show();
 
                             if (From.toLowerCase().contains("gmail")) {
+
                                 //Get the session object
                                 //  Toast.makeText(getApplicationContext(),"Entered Port Authentication",Toast.LENGTH_LONG).show();
                                 props.put("mail.smtp.auth", "true");
                                 props.put("mail.smtp.starttls.enable", "true");
                                 props.put("mail.smtp.host", "smtp.gmail.com");
                                 props.put("mail.smtp.port", "587");
+
 
                             } else if (From.toLowerCase().contains("yahoo")) {
                                 props.put("mail.smtp.host", "smtp.mail.yahoo.com");
@@ -97,14 +99,17 @@ public class LoginActivity extends AppCompatActivity {
                             //   Properties props = new Properties();
 
 
+
+
                             Session session = Session.getInstance(props, new Authenticator() {
                                 protected PasswordAuthentication getPasswordAuthentication() {
+
                                     return new PasswordAuthentication(From, Pwd);//change accordingly
                                 }
                             });
+                        try {
 
                             //compose message
-
                             MimeMessage message = new MimeMessage(session);
                             message.setFrom(new InternetAddress(From));//change accordingly
                             message.addRecipient(Message.RecipientType.TO, new InternetAddress(From));
@@ -176,11 +181,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
 
-                if(charSequence.length()!=0) {
-                    eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.icon_close), null);
-                }
-                else {
-                    eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.microphone), null);
+                if (charSequence.length() != 0) {
+                    eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.example.mini.R.drawable.icon_close), null);
+                } else {
+                    eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.example.mini.R.drawable.microphone), null);
 
                 }
 
@@ -214,6 +218,8 @@ public class LoginActivity extends AppCompatActivity {
 
                                 Toast.makeText(getApplicationContext(), "Couldn't enter email" + e.getMessage(), Toast.LENGTH_LONG).show();
                             }
+                        } else {
+                            editTxtFrom.setText("");
                         }
 
                     }
@@ -237,6 +243,8 @@ public class LoginActivity extends AppCompatActivity {
 
                                 Toast.makeText(getApplicationContext(), "Couldn't enter password" + e.getMessage(), Toast.LENGTH_LONG).show();
                             }
+                        } else {
+                            editTxtPwd.setText("");
                         }
 
                     }

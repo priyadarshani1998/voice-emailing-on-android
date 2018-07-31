@@ -1,27 +1,21 @@
-package com.example.sindhoora.mini;
+package com.example.mini;
 
 import java.util.ArrayList;
 
 import android.os.Build;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
-import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.io.IOException;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -39,19 +33,19 @@ public class VoiceEmailActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_email);
-        getSupportActionBar().setIcon(R.drawable.ic_action_name2);
+        setContentView(com.example.mini.R.layout.activity_email);
+        getSupportActionBar().setIcon(com.example.mini.R.drawable.ic_action_name2);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         if(Build.VERSION.SDK_INT>9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
         //txtText = (TextView) findViewById(R.id.txtText);
-        editTxtTO = (EditText) findViewById(R.id.txt_to);
-        editTxtCC = (EditText) findViewById(R.id.txt_cc);
-        editTxtSub = (EditText) findViewById(R.id.txt_sub);
-        editTxtEB = (EditText) findViewById(R.id.txt_bdy);
-        btnSpeakTO = (ImageButton) findViewById(R.id.voice_btn);
+        editTxtTO = (EditText) findViewById(com.example.mini.R.id.txt_to);
+        editTxtCC = (EditText) findViewById(com.example.mini.R.id.txt_cc);
+        editTxtSub = (EditText) findViewById(com.example.mini.R.id.txt_sub);
+        editTxtEB = (EditText) findViewById(com.example.mini.R.id.txt_bdy);
+        btnSpeakTO = (ImageButton) findViewById(com.example.mini.R.id.voice_btn);
 
         //btnSendEmail = (Button)findViewById(R.id.btnEmail
 
@@ -203,7 +197,7 @@ public class VoiceEmailActivity extends AppCompatActivity {
                                 Properties props = new Properties();
 
                                 if (fr.contains("gmail")) {
-//Get the session object
+                                    //Get the session object
                                     Toast.makeText(getApplicationContext(),"Entered Port Authentication",Toast.LENGTH_LONG).show();
                                     props.put("mail.smtp.auth", "true");
                                     props.put("mail.smtp.starttls.enable", "true");
@@ -228,7 +222,7 @@ public class VoiceEmailActivity extends AppCompatActivity {
                                             }
                                         });
 
-//compose message
+                                //compose message
                                 txt_to = txt_to.replaceAll(" ","");
                                 txt_cc = txt_cc.replaceAll(" ","");
                                 txt_eb=txt_eb.replaceAll("full stop",".");
@@ -264,7 +258,7 @@ public class VoiceEmailActivity extends AppCompatActivity {
             message.setSubject(txt_sub);
             message.setText(txt_eb);
 
-            //send messageti
+            //send message to
             Transport.send(message);
 
 

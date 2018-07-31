@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.sindhoora.mini">
+    package="com.example.mini">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -21,7 +21,7 @@
         <activity
             android:name=".WelcomePage"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Voice Based E-mail"
+            android:label="Voice Based E-Mail"
             android:theme="@style/FullscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

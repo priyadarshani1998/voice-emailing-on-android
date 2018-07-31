@@ -1,4 +1,4 @@
-package com.example.sindhoora.mini;
+package com.example.mini;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
