@@ -19,46 +19,35 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <android.support.design.widget.TextInputLayout
+
+    <EditText
+        android:id="@+id/txt_usr"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/txt_usr"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:drawableLeft="@drawable/mail_icon"
-            android:drawablePadding="5dp"
-            android:drawableRight="@drawable/microphone"
-            android:drawableEnd="@drawable/microphone"
-            android:drawableStart="@drawable/mail_icon"
-            android:hint="Email"
-            android:imeOptions="actionNext"
-            android:inputType="textEmailAddress">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:drawableEnd="@drawable/microphone"
+        android:drawableLeft="@drawable/mail_icon"
+        android:drawablePadding="5dp"
+        android:drawableRight="@drawable/microphone"
+        android:drawableStart="@drawable/mail_icon"
+        android:hint="Email"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress" />
 
-            <requestFocus />
-        </EditText>
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
     <EditText
         android:id="@+id/txt_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/microphone"
         android:drawableLeft="@drawable/touch_id"
-        android:drawableStart="@drawable/touch_id"
         android:drawablePadding="5dp"
         android:drawableRight="@drawable/microphone"
-        android:drawableEnd="@drawable/microphone"
+        android:drawableStart="@drawable/touch_id"
         android:hint="Password"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
-        android:paddingBottom="16dp"/>
-    </android.support.design.widget.TextInputLayout>
+        android:paddingBottom="16dp" />
 
     <Button
         android:id="@+id/btn_sbt"
@@ -67,8 +56,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="32dp"
         android:drawableLeft="@drawable/user"
-        android:drawableStart="@drawable/user"
         android:drawablePadding="5dp"
+        android:drawableStart="@drawable/user"
         android:paddingBottom="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"

@@ -175,15 +175,20 @@ public class LoginActivity extends AppCompatActivity {
         eText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.example.mini.R.drawable.microphone), null);
 
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
 
+
                 if (charSequence.length() != 0) {
+
                     eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.example.mini.R.drawable.icon_close), null);
+
                 } else {
+
                     eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.example.mini.R.drawable.microphone), null);
 
                 }
@@ -192,7 +197,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.example.mini.R.drawable.icon_close), null);
             }
         });
     }
