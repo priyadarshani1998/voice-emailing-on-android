@@ -12,7 +12,7 @@ public class WelcomePage extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(com.example.mini.R.layout.activity_launch_page);
+        setContentView(com.bhanu.mini.R.layout.activity_launch_page);
     }
 
     public void goToLogin(View view) {

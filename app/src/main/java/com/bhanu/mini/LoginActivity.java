@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(com.example.mini.R.layout.activity_login);
+        setContentView(com.bhanu.mini.R.layout.activity_login);
 
         if (Build.VERSION.SDK_INT > 9) {
 
@@ -45,14 +45,14 @@ public class LoginActivity extends AppCompatActivity {
             StrictMode.setThreadPolicy(policy);
         }
 
-        editTxtFrom = (EditText) findViewById(com.example.mini.R.id.txt_usr);
-        editTxtPwd = (EditText) findViewById(com.example.mini.R.id.txt_pwd);
-        btnSubmit = (Button) findViewById(com.example.mini.R.id.btn_sbt);
+        editTxtFrom = (EditText) findViewById(com.bhanu.mini.R.id.txt_usr);
+        editTxtPwd = (EditText) findViewById(com.bhanu.mini.R.id.txt_pwd);
+        btnSubmit = (Button) findViewById(com.bhanu.mini.R.id.btn_sbt);
 
-        Toolbar t = (Toolbar) findViewById(com.example.mini.R.id.tob);
-        t.setNavigationIcon(com.example.mini.R.drawable.ic_action_name4);
+        Toolbar t = (Toolbar) findViewById(com.bhanu.mini.R.id.tob);
+        t.setNavigationIcon(com.bhanu.mini.R.drawable.ic_action_name4);
         t.setTitle("Login");
-        getSupportActionBar().setIcon(com.example.mini.R.drawable.ic_action_name2);
+        getSupportActionBar().setIcon(com.bhanu.mini.R.drawable.ic_action_name2);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         // getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
         eText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.example.mini.R.drawable.microphone), null);
+                eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.bhanu.mini.R.drawable.microphone), null);
 
             }
 
@@ -185,11 +185,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (charSequence.length() != 0) {
 
-                    eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.example.mini.R.drawable.icon_close), null);
+                    eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.bhanu.mini.R.drawable.icon_close), null);
 
                 } else {
 
-                    eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.example.mini.R.drawable.microphone), null);
+                    eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.bhanu.mini.R.drawable.microphone), null);
 
                 }
 
@@ -197,7 +197,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.example.mini.R.drawable.icon_close), null);
+                eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.bhanu.mini.R.drawable.icon_close), null);
             }
         });
     }

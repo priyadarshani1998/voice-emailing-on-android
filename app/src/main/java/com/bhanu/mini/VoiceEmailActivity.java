@@ -33,19 +33,19 @@ public class VoiceEmailActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.example.mini.R.layout.activity_email);
-        getSupportActionBar().setIcon(com.example.mini.R.drawable.ic_action_name2);
+        setContentView(com.bhanu.mini.R.layout.activity_email);
+        getSupportActionBar().setIcon(com.bhanu.mini.R.drawable.ic_action_name2);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         if(Build.VERSION.SDK_INT>9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
         //txtText = (TextView) findViewById(R.id.txtText);
-        editTxtTO = (EditText) findViewById(com.example.mini.R.id.txt_to);
-        editTxtCC = (EditText) findViewById(com.example.mini.R.id.txt_cc);
-        editTxtSub = (EditText) findViewById(com.example.mini.R.id.txt_sub);
-        editTxtEB = (EditText) findViewById(com.example.mini.R.id.txt_bdy);
-        btnSpeakTO = (ImageButton) findViewById(com.example.mini.R.id.voice_btn);
+        editTxtTO = (EditText) findViewById(com.bhanu.mini.R.id.txt_to);
+        editTxtCC = (EditText) findViewById(com.bhanu.mini.R.id.txt_cc);
+        editTxtSub = (EditText) findViewById(com.bhanu.mini.R.id.txt_sub);
+        editTxtEB = (EditText) findViewById(com.bhanu.mini.R.id.txt_bdy);
+        btnSpeakTO = (ImageButton) findViewById(com.bhanu.mini.R.id.voice_btn);
 
         //btnSendEmail = (Button)findViewById(R.id.btnEmail
 
