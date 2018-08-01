@@ -26,10 +26,10 @@ public class VoiceEmailActivity extends AppCompatActivity {
 
     private ImageButton btnSpeakTO,btnSpeakCC,btnSpeakSub,btnSpeakEB;
     private TextView txtText;
-    public EditText editTxtTO,editTxtCC,editTxtSub,editTxtEB;
+    public EditText editTxtTO,editTxtCC, editTxtBCC,editTxtSub,editTxtEB;
     // private Button btnSendE
     //SendMailSSL smssl;
-    String fr=null,toadd=null,txt_cc=null,txt_sub=null,txt_eb=null,txt_to=null,dd=null,ddd=null;
+    String fr=null,toadd=null,txt_cc=null,txt_bcc=null,txt_sub=null,txt_eb=null,txt_to=null,dd=null,ddd=null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +43,7 @@ public class VoiceEmailActivity extends AppCompatActivity {
         //txtText = (TextView) findViewById(R.id.txtText);
         editTxtTO = (EditText) findViewById(com.bhanu.mini.R.id.txt_to);
         editTxtCC = (EditText) findViewById(com.bhanu.mini.R.id.txt_cc);
+        editTxtBCC = (EditText) findViewById(com.bhanu.mini.R.id.txt_bcc);
         editTxtSub = (EditText) findViewById(com.bhanu.mini.R.id.txt_sub);
         editTxtEB = (EditText) findViewById(com.bhanu.mini.R.id.txt_bdy);
         btnSpeakTO = (ImageButton) findViewById(com.bhanu.mini.R.id.voice_btn);
@@ -50,92 +51,11 @@ public class VoiceEmailActivity extends AppCompatActivity {
         //btnSendEmail = (Button)findViewById(R.id.btnEmail
 
 
-        editTxtTO.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-
-                try {
-                    startActivityForResult(intent, RESULT_SPEECH);
-                    //txtText.setText("");
-                } catch (ActivityNotFoundException a) {
-                    Toast t = Toast.makeText(getApplicationContext(),
-                            "Ops! Your device doesn't support Speech to Text",
-                            Toast.LENGTH_SHORT);
-                    t.show();
-                }
-            }
-        });
-        editTxtCC.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(
-                        RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-
-                try {
-                    startActivityForResult(intent, RESULT_SPEECH);
-
-
-                    //txtText.setText("");
-                } catch (ActivityNotFoundException a) {
-                    Toast t = Toast.makeText(getApplicationContext(),
-                            "Ops! Your device doesn't support Speech to Text",
-                            Toast.LENGTH_SHORT);
-                    t.show();
-                }
-            }
-        });
-
-        editTxtEB.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(
-                        RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-
-                try {
-                    startActivityForResult(intent, RESULT_SPEECH);
-
-
-                    //txtText.setText("");
-                } catch (ActivityNotFoundException a) {
-                    Toast t = Toast.makeText(getApplicationContext(),
-                            "Ops! Your device doesn't support Speech to Text",
-                            Toast.LENGTH_SHORT);
-                    t.show();
-                }
-            }
-        });
-
-        editTxtSub.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(
-                        RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-
-                try {
-                    startActivityForResult(intent, RESULT_SPEECH);
-
-
-                    //txtText.setText("");
-                } catch (ActivityNotFoundException a) {
-                    Toast t = Toast.makeText(getApplicationContext(),
-                            "Ops! Your device doesn't support Speech to Text",
-                            Toast.LENGTH_SHORT);
-                    t.show();
-                }
-            }
-        });
-
-
+        inputOnClickListener(editTxtTO, RESULT_SPEECH);
+        inputOnClickListener(editTxtCC, RESULT_SPEECH);
+        inputOnClickListener(editTxtBCC, RESULT_SPEECH);
+        inputOnClickListener(editTxtSub, RESULT_SPEECH);
+        inputOnClickListener(editTxtEB, RESULT_SPEECH);
 
         btnSpeakTO.setOnClickListener(new OnClickListener() {
 
@@ -186,6 +106,7 @@ public class VoiceEmailActivity extends AppCompatActivity {
                             toadd = this.getIntent().getStringExtra("PWD");
                             txt_to = editTxtTO.getText().toString();
                             txt_cc = editTxtCC.getText().toString();
+                            txt_bcc = editTxtBCC.getText().toString();
                             txt_sub = editTxtSub.getText().toString();
                             txt_eb = editTxtEB.getText().toString();
                             // Toast.makeText(getApplicationContext(),fr+", "+toadd+", "+txt_to+", "+txt_cc+", "+
@@ -225,6 +146,7 @@ public class VoiceEmailActivity extends AppCompatActivity {
                                 //compose message
                                 txt_to = txt_to.replaceAll(" ","");
                                 txt_cc = txt_cc.replaceAll(" ","");
+                                txt_bcc = txt_bcc.replaceAll(" ","");
                                 txt_eb=txt_eb.replaceAll("full stop",".");
                                 txt_eb=txt_eb.replaceAll("dot",".");
                                 txt_eb=txt_eb.replaceAll("Dot",".");
@@ -243,17 +165,20 @@ public class VoiceEmailActivity extends AppCompatActivity {
                                 if(txt_cc==null){
                                     txt_cc = " ";
                                 }
+                                if(txt_bcc == null)
+                                    txt_bcc = "";
 
                                 Toast.makeText(getApplicationContext(),fr + " From Address " + txt_to + " To Address",Toast.LENGTH_LONG).show();
 
                                 MimeMessage message = new MimeMessage(session);
                                 message.setFrom(new InternetAddress(fr));//change accordingly
                                 message.addRecipient(Message.RecipientType.TO, new InternetAddress(txt_to));
-                            if(txt_cc.trim().equals("")) {
+                            if(txt_cc.trim().equals("")|| txt_bcc.trim().equals("")) {
 
                             } else{
 
                                 message.addRecipient(Message.RecipientType.CC, new InternetAddress(txt_cc));
+                                message.addRecipient(Message.RecipientType.BCC, new InternetAddress(txt_bcc));
                             }
 
             message.setSubject(txt_sub);
@@ -281,6 +206,9 @@ public class VoiceEmailActivity extends AppCompatActivity {
 
                     }
                     else if(editTxtCC.findFocus() ==editTxtCC){
+                        editTxtCC.append(text.get(0));
+                     break;
+                    }else if(editTxtBCC.findFocus() ==editTxtBCC){
                         editTxtCC.append(text.get(0));
                      break;
                     }
@@ -355,6 +283,7 @@ public class VoiceEmailActivity extends AppCompatActivity {
             //compose message
             txt_to = txt_to.replaceAll(" ","");
             txt_cc = txt_cc.replaceAll(" ","");
+            txt_bcc = txt_bcc.replaceAll(" ","");
             Toast.makeText(getApplicationContext(),fr + " From Address " + txt_to + " To Address",Toast.LENGTH_LONG).show();
             /*MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(fr));//change accordingly
@@ -369,6 +298,7 @@ public class VoiceEmailActivity extends AppCompatActivity {
             Intent iemail = new Intent(Intent.ACTION_SEND);
             iemail.putExtra(Intent.EXTRA_EMAIL,txt_to);
             iemail.putExtra(Intent.EXTRA_CC,txt_cc);
+            iemail.putExtra(Intent.EXTRA_BCC,txt_bcc);
             iemail.putExtra(Intent.EXTRA_SUBJECT,txt_sub);
             iemail.putExtra(Intent.EXTRA_TEXT,txt_eb);
             startActivity(Intent.createChooser(iemail,""));
@@ -376,5 +306,28 @@ public class VoiceEmailActivity extends AppCompatActivity {
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void inputOnClickListener(EditText eText, final int code) {
+
+        eText.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+
+                try {
+                    startActivityForResult(intent, code);
+                } catch (ActivityNotFoundException a) {
+                    Toast t = Toast.makeText(getApplicationContext(),
+                            "Ops! Your device doesn't support Speech to Text",
+                            Toast.LENGTH_SHORT);
+                    t.show();
+                }
+            }
+        });
+
     }
 }
