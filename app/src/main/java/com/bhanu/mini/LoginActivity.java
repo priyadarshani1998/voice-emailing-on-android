@@ -25,6 +25,8 @@ import javax.mail.internet.*;
 
 public class LoginActivity extends AppCompatActivity {
 
+    protected ClickListener clickListener = new ClickListener();
+
     final int EMAIL_VOICE_CODE = 100;
     final int PASSWORD_VOICE_CODE = 200;
     private Button btnSubmit;
@@ -56,8 +58,8 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         // getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        inputOnClickListener(editTxtFrom, EMAIL_VOICE_CODE);
-        inputOnClickListener(editTxtPwd, PASSWORD_VOICE_CODE);
+        clickListener.clickEvent(editTxtFrom, EMAIL_VOICE_CODE);
+        clickListener.clickEvent(editTxtPwd, PASSWORD_VOICE_CODE);
 
         textChange(editTxtFrom);
         textChange(editTxtPwd);
@@ -144,30 +146,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-
-    private void inputOnClickListener(EditText eText, final int code) {
-
-        eText.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-
-                try {
-                    startActivityForResult(intent, code);
-                } catch (ActivityNotFoundException a) {
-                    Toast t = Toast.makeText(getApplicationContext(),
-                            "Ops! Your device doesn't support Speech to Text",
-                            Toast.LENGTH_SHORT);
-                    t.show();
-                }
-            }
-        });
-
     }
 
     private void textChange(final EditText eText) {
