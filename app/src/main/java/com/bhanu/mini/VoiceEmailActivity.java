@@ -22,9 +22,6 @@ import javax.mail.internet.*;
 public class VoiceEmailActivity extends AppCompatActivity {
 
     protected static final int RESULT_SPEECH = 1;
-
-    protected ClickListener clickListener = new ClickListener();
-
     private ImageButton btnSpeakTO, btnSpeakCC, btnSpeakSub, btnSpeakEB;
     private TextView txtText;
     public EditText editTxtTO, editTxtCC, editTxtSub, editTxtEB;
@@ -58,13 +55,13 @@ public class VoiceEmailActivity extends AppCompatActivity {
         //btnSendEmail = (Button)findViewById(R.id.btnEmail
 
 
-        clickListener.clickEvent(editTxtTO, RESULT_SPEECH);
-        clickListener.clickEvent(editTxtTO, RESULT_SPEECH);
-        clickListener.clickEvent(editTxtCC, RESULT_SPEECH);
-        clickListener.clickEvent(editTxtEB, RESULT_SPEECH);
-        clickListener.clickEvent(editTxtSub, RESULT_SPEECH);
+        ClickListener.clickEvent(editTxtTO, RESULT_SPEECH);
+        ClickListener.clickEvent(editTxtTO, RESULT_SPEECH);
+        ClickListener.clickEvent(editTxtCC, RESULT_SPEECH);
+        ClickListener.clickEvent(editTxtEB, RESULT_SPEECH);
+        ClickListener.clickEvent(editTxtSub, RESULT_SPEECH);
 
-        clickListener.onImageButtonClick(btnSpeakTO, RESULT_SPEECH);
+        ClickListener.onImageButtonClick(btnSpeakTO, RESULT_SPEECH);
 
     }
 

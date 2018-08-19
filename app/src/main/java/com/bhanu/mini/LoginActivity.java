@@ -25,8 +25,6 @@ import javax.mail.internet.*;
 
 public class LoginActivity extends AppCompatActivity {
 
-    protected ClickListener clickListener = new ClickListener();
-
     final int EMAIL_VOICE_CODE = 100;
     final int PASSWORD_VOICE_CODE = 200;
     private Button btnSubmit;
@@ -58,8 +56,8 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         // getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        clickListener.clickEvent(editTxtFrom, EMAIL_VOICE_CODE);
-        clickListener.clickEvent(editTxtPwd, PASSWORD_VOICE_CODE);
+        ClickListener.clickEvent(editTxtFrom, EMAIL_VOICE_CODE);
+        ClickListener.clickEvent(editTxtPwd, PASSWORD_VOICE_CODE);
 
         textChange(editTxtFrom);
         textChange(editTxtPwd);

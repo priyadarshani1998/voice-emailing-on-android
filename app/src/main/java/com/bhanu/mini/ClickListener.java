@@ -9,9 +9,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-public class ClickListener extends Activity  {
+public abstract class ClickListener implements View.OnClickListener {
 
-    protected void clickEvent(EditText editText, final int code) {
+
+    public static Activity activity = new Activity();
+
+    protected static void clickEvent(EditText editText, final int code) {
 
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -22,9 +25,9 @@ public class ClickListener extends Activity  {
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
 
                 try {
-                    startActivityForResult(intent, code);
+                    activity.startActivityForResult(intent, code);
                 } catch (ActivityNotFoundException a) {
-                    Toast t = Toast.makeText(getApplicationContext(),
+                    Toast t = Toast.makeText(activity.getApplicationContext(),
                             "Ops! Your device doesn't support Speech to Text",
                             Toast.LENGTH_SHORT);
                     t.show();
@@ -33,7 +36,7 @@ public class ClickListener extends Activity  {
         });
     }
 
-    protected void onImageButtonClick(ImageButton imageButton, final int code) {
+    protected static void onImageButtonClick(ImageButton imageButton, final int code) {
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,9 +47,9 @@ public class ClickListener extends Activity  {
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
 
                 try {
-                    startActivityForResult(intent, code);
+                    activity.startActivityForResult(intent, code);
                 } catch (ActivityNotFoundException a) {
-                    Toast t = Toast.makeText(getApplicationContext(),
+                    Toast t = Toast.makeText(activity.getApplicationContext(),
                             "Ops! Your device doesn't support Speech to Text",
                             Toast.LENGTH_SHORT);
                     t.show();
