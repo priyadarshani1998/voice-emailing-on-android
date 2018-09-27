@@ -1,12 +1,8 @@
 package com.bhanu.mini;
 
-import java.util.ArrayList;
-
-import android.net.Uri;
 import android.os.Build;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -16,8 +12,6 @@ import android.speech.RecognizerIntent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Properties;
@@ -28,12 +22,12 @@ import javax.mail.internet.*;
 public class VoiceEmailActivity extends AppCompatActivity {
 
     protected static final int RESULT_SPEECH = 1;
-    protected static final int SEND_CODE = 200;
+    String packageName = "com.google.android.gm";
 
     private FloatingActionButton btnSpeakTO;
 
     public EditText editTxtTO, editTxtCC, editTxtBCC, editTxtSub, editTxtEB;
-    String fr = null, password = null, txt_cc = null, txt_sub = null, txt_eb = null, txt_to = null, dd = null, ddd = null;
+    String editTxtFrom = null, password = null, txt_sub = null, txt_eb = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,11 +36,13 @@ public class VoiceEmailActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(com.bhanu.mini.R.drawable.ic_action_name2);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        editTxtFrom = this.getIntent().getStringExtra("FROM");
+        password = this.getIntent().getStringExtra("PWD");
+
         if (Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-        //txtText = (TextView) findViewById(R.id.txtText);
 
         editTxtTO = (EditText) findViewById(R.id.to_email);
         editTxtCC = (EditText) findViewById(R.id.cc_email);
@@ -77,8 +73,6 @@ public class VoiceEmailActivity extends AppCompatActivity {
 
     protected void sendEmail() {
 
-        String packageName = "com.google.android.gm";
-
         String toEmail = editTxtTO.getText().toString();
         String ccEmail = editTxtCC.getText().toString();
         String bccEmail = editTxtBCC.getText().toString();
@@ -91,41 +85,16 @@ public class VoiceEmailActivity extends AppCompatActivity {
         txt_eb = editTxtEB.getText().toString();
 
 
-        fr = this.getIntent().getStringExtra("FROM");
-        password = this.getIntent().getStringExtra("PWD");
-
         try {
-            Properties props = System.getProperties();
 
-            if (fr.contains("gmail")) {
-                //Get the session object
-                props.put("mail.smtp.auth", "true");
-                props.put("mail.smtp.starttls.enable", "true");
-                props.put("mail.smtp.host", "smtp.gmail.com");
-                props.put("mail.smtp.port", "587");
-            } else if (fr.contains("yahoo")) {
 
-                packageName = "com.yahoo.mobile.client.android.mail";
-
-                props.put("mail.smtp.host", "smtp.mail.yahoo.com");
-                props.put("mail.smtp.socketFactory.port", "587");
-                props.put("mail.smtp.socketFactory.class",
-                        "javax.net.ssl.SSLSocketFactory");
-                props.put("mail.smtp.auth", "true");
-                props.put("mail.smtp.port", "587");
-            }
-
-            Session session = Session.getDefaultInstance(props, new Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(fr, password);//change accordingly
-                }
-            });
+            Session session = authenticate(editTxtFrom, password);
 
             //compose message
 
             MimeMessage message = new MimeMessage(session);
 
-            message.setFrom(new InternetAddress(fr));//change accordingly
+            message.setFrom(new InternetAddress(editTxtFrom));//change accordingly
 
             for (String email : TO) {
                 message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
@@ -141,7 +110,7 @@ public class VoiceEmailActivity extends AppCompatActivity {
             message.setSubject(txt_sub);
             message.setText(txt_eb);
 
-            //send messageti
+            //send message to
             Transport.send(message);
             Toast.makeText(getApplicationContext(), "Email Sent Successfully", Toast.LENGTH_LONG).show();
 
@@ -153,7 +122,6 @@ public class VoiceEmailActivity extends AppCompatActivity {
         } catch (Exception e) {
             //e.printStackTrace();
             Toast.makeText(getApplicationContext(), "Email Could not be Sent" + e.getMessage(), Toast.LENGTH_LONG).show();
-            ;
         }
     }
 
@@ -178,5 +146,44 @@ public class VoiceEmailActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private Session authenticate(final String userName, final String password) {
+
+
+        Session session = null;
+
+        try {
+            Properties props = System.getProperties();
+
+            if (userName.contains("gmail")) {
+                //Get the session object
+                props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.starttls.enable", "true");
+                props.put("mail.smtp.host", "smtp.gmail.com");
+                props.put("mail.smtp.port", "587");
+
+            } else if (userName.contains("yahoo")) {
+
+                packageName = "com.yahoo.mobile.client.android.mail";
+
+                props.put("mail.smtp.host", "smtp.mail.yahoo.com");
+                props.put("mail.smtp.socketFactory.port", "587");
+                props.put("mail.smtp.socketFactory.class",
+                        "javax.net.ssl.SSLSocketFactory");
+                props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.port", "587");
+            }
+
+            session = Session.getDefaultInstance(props, new Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(userName, password);//change accordingly
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Email Could authenticated" + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+        return session;
     }
 }
