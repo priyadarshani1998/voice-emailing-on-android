@@ -1,5 +1,6 @@
 package com.bhanu.mini;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -35,14 +36,15 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnSubmit;
     public EditText editTxtFrom, editTxtPwd;
     String from = null, Pwd = null;
+    Activity loginActivity;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
         setContentView(com.bhanu.mini.R.layout.activity_login);
+        loginActivity = LoginActivity.this;
 
         if (Build.VERSION.SDK_INT > 9) {
 
@@ -55,8 +57,8 @@ public class LoginActivity extends AppCompatActivity {
         btnSubmit = (Button) findViewById(com.bhanu.mini.R.id.btn_sbt);
 
 
-        inputOnClickListener(editTxtFrom, EMAIL_VOICE_CODE);
-        inputOnClickListener(editTxtPwd, PASSWORD_VOICE_CODE);
+        ClickListener.inputOnClickListener(editTxtFrom, loginActivity,EMAIL_VOICE_CODE);
+        ClickListener.inputOnClickListener(editTxtPwd,loginActivity, PASSWORD_VOICE_CODE);
 
         textChange(editTxtFrom);
         textChange(editTxtPwd);
@@ -159,27 +161,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void inputOnClickListener(EditText editText, final int code) {
-
-        editText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-
-                try {
-                    startActivityForResult(intent, code);
-                } catch (ActivityNotFoundException a) {
-                    Snackbar.make(view, "Oops! Your device doesn't support Speech to Text", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            }
-        });
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
