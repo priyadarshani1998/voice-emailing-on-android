@@ -184,9 +184,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        System.out.print(requestCode);
-        System.out.print(resultCode);
-
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case EMAIL_VOICE_CODE: {

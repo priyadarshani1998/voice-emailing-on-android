@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.mail.*;
@@ -23,8 +24,7 @@ public class VoiceEmailActivity extends AppCompatActivity {
 
     protected static final int RESULT_SPEECH = 1;
     MimeMessage message = null;
-    Session session = null;
-
+    Session     session = null;
 
 
     String packageName = "com.google.android.gm";
@@ -249,5 +249,85 @@ public class VoiceEmailActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        switch (requestCode) {
+            case 2: {
+                if (resultCode == RESULT_OK && null != data) {
+
+                    ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+                    for (String result : results) {
+                        if (!result.equalsIgnoreCase("clean")) {
+                            try {
+
+                                editTxtTO.setText(result);
+
+                            } catch (Exception e) {
+
+                                Toast.makeText(getApplicationContext(), "Couldn't enter email" + e.getMessage(), Toast.LENGTH_LONG)
+                                        .show();
+                            }
+                        } else {
+                            editTxtTO.setText("");
+                        }
+
+                    }
+
+                }
+                break;
+            }
+            case 3: {
+                if (resultCode == RESULT_OK && null != data) {
+
+                    ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+                    for (String result : results) {
+                        if (!result.equalsIgnoreCase("clean")) {
+                            try {
+
+                                editTxtTO.setText(result);
+
+                            } catch (Exception e) {
+
+                                Toast.makeText(getApplicationContext(), "Couldn't enter email" + e.getMessage(), Toast.LENGTH_LONG)
+                                        .show();
+                            }
+                        } else {
+                            editTxtTO.setText("");
+                        }
+
+                    }
+
+                }
+                break;
+            }case 4: {
+                if (resultCode == RESULT_OK && null != data) {
+
+                    ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+                    for (String result : results) {
+                        if (!result.equalsIgnoreCase("clean")) {
+                            try {
+
+                                editTxtTO.setText(result);
+
+                            } catch (Exception e) {
+
+                                Toast.makeText(getApplicationContext(), "Couldn't enter email" + e.getMessage(), Toast.LENGTH_LONG)
+                                        .show();
+                            }
+                        } else {
+                            editTxtTO.setText("");
+                        }
+
+                    }
+
+                }
+                break;
+            }
+        }
+    }
 }
