@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public abstract class ClickListener implements View.OnClickListener {
 
-    protected static void inputOnClickListener(EditText editText, final Activity activity, final int code) {
+    protected static void inputOnClickListener(EditText editText, final Activity Activity, final int code) {
 
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -21,12 +21,13 @@ public abstract class ClickListener implements View.OnClickListener {
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
 
                 try {
-                    activity.startActivityForResult(intent, code);
+                    Activity.startActivityForResult(intent, code);
+
                 } catch (ActivityNotFoundException a) {
-                    Toast t = Toast.makeText(activity.getApplicationContext(),
+
+                    Toast.makeText(Activity.getApplicationContext(),
                             "Ops! Your device doesn't support Speech to Text",
-                            Toast.LENGTH_SHORT);
-                    t.show();
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });

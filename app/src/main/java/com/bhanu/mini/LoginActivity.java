@@ -232,6 +232,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Couldn't enter password" + e.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         } else {
+
                             editTxtPwd.setText("");
                         }
 
