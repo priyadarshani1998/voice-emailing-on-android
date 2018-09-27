@@ -6,15 +6,11 @@ import android.content.Intent;
 import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 public abstract class ClickListener implements View.OnClickListener {
 
-
-    public static Activity activity = new Activity();
-
-    protected static void inputOnClickListener(EditText editText, final int code) {
+    protected static void inputOnClickListener(EditText editText, final Activity activity, final int code) {
 
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
