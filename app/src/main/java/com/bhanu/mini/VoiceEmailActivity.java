@@ -22,12 +22,24 @@ import javax.mail.internet.*;
 public class VoiceEmailActivity extends AppCompatActivity {
 
     protected static final int RESULT_SPEECH = 1;
+    MimeMessage message = null;
+    Session session = null;
+
+
+
     String packageName = "com.google.android.gm";
 
     private FloatingActionButton btnSpeakTO;
 
-    public EditText editTxtTO, editTxtCC, editTxtBCC, editTxtSub, editTxtEB;
-    String editTxtFrom = null, password = null, txt_sub = null, txt_eb = null;
+    private EditText editTxtTO;
+    private EditText editTxtCC;
+    private EditText editTxtBCC;
+    private EditText editTxtSub;
+    private EditText editTxtEB;
+    private String editTxtFrom  = null;
+    private String password     = null;
+    private String subjectEmail = null;
+    private String bodyEmail    = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +52,8 @@ public class VoiceEmailActivity extends AppCompatActivity {
         password = this.getIntent().getStringExtra("PWD");
 
         if (Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll()
+                    .build();
             StrictMode.setThreadPolicy(policy);
         }
 
@@ -73,85 +86,108 @@ public class VoiceEmailActivity extends AppCompatActivity {
 
     protected void sendEmail() {
 
-        String toEmail = editTxtTO.getText().toString();
-        String ccEmail = editTxtCC.getText().toString();
+        String toEmail  = editTxtTO.getText().toString();
+        String ccEmail  = editTxtCC.getText().toString();
         String bccEmail = editTxtBCC.getText().toString();
 
-        String[] TO = toEmail.split("\\,");
-        String[] CC = ccEmail.split("\\,");
-        String[] BCC = bccEmail.split("\\,");
-
-        txt_sub = editTxtSub.getText().toString();
-        txt_eb = editTxtEB.getText().toString();
+        subjectEmail = editTxtSub.getText().toString();
+        bodyEmail = editTxtEB.getText().toString();
 
 
         try {
 
-
-            Session session = authenticate(editTxtFrom, password);
+            Session AuthSession = this.authenticate(editTxtFrom, password);
 
             //compose message
+            MimeMessage message = this.composeMessage(AuthSession, toEmail, ccEmail, bccEmail);
 
-            MimeMessage message = new MimeMessage(session);
-
-            message.setFrom(new InternetAddress(editTxtFrom));//change accordingly
-
-            for (String email : TO) {
-                message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-            }
-
-            for (String email : CC) {
-                message.addRecipient(Message.RecipientType.CC, new InternetAddress(email));
-            }
-            for (String email : BCC) {
-                message.addRecipient(Message.RecipientType.BCC, new InternetAddress(email));
-            }
-
-            message.setSubject(txt_sub);
-            message.setText(txt_eb);
+//            MimeMessage message = new MimeMessage(session);
+//
+//
+//            for (String email : toEmailList) {
+//                message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+//            }
+//
+//            for (String email : ccEmailList) {
+//                message.addRecipient(Message.RecipientType.CC, new InternetAddress(email));
+//            }
+//            for (String email : bccEmailList) {
+//                message.addRecipient(Message.RecipientType.BCC, new InternetAddress(email));
+//            }
+//
+//            message.setSubject(subjectEmail);
+//            message.setText(bodyEmail);
 
             //send message to
             Transport.send(message);
-            Toast.makeText(getApplicationContext(), "Email Sent Successfully", Toast.LENGTH_LONG).show();
 
-            Intent mailIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+            Toast.makeText(getApplicationContext(), "Email Sent Successfully", Toast.LENGTH_LONG)
+                    .show();
 
-            if (mailIntent != null)
-                startActivity(mailIntent);
+            this.openEmailApp();
 
         } catch (Exception e) {
-            //e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Email Could not be Sent" + e.getMessage(), Toast.LENGTH_LONG).show();
+
+            Toast.makeText(getApplicationContext(), "Email Could not be Sent" + e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
         }
     }
 
-    private void inputOnClickListener(EditText eText, final int code) {
+    private void openEmailApp() {
 
-        eText.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        Intent mailIntent = getPackageManager().getLaunchIntentForPackage(packageName);
 
-                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        if (mailIntent != null)
+            startActivity(mailIntent);
 
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+    }
 
-                try {
-                    startActivityForResult(intent, code);
-                } catch (ActivityNotFoundException a) {
-                    Toast t = Toast.makeText(getApplicationContext(),
-                            "Ops! Your device doesn't support Speech to Text",
-                            Toast.LENGTH_SHORT);
-                    t.show();
-                }
+    private MimeMessage composeMessage(Session session, String toEmail, String ccEmail, String bccEmail) {
+
+        try {
+
+            message = new MimeMessage(session);
+
+            //setting who is sending an email
+            message.setFrom(new InternetAddress(editTxtFrom));//change accordingly
+
+            //adding all types of recipients of an email
+            addRecipients(message, Message.RecipientType.TO, toEmail);
+            addRecipients(message, Message.RecipientType.CC, ccEmail);
+            addRecipients(message, Message.RecipientType.BCC, bccEmail);
+
+            //setting subject and body of an email
+            message.setSubject(subjectEmail);
+            message.setText(bodyEmail);
+
+        } catch (Exception e) {
+
+            Toast.makeText(getApplicationContext(), "Could not compose message" + e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+        }
+
+        return message;
+    }
+
+    private void addRecipients(Message message, Message.RecipientType type, String recipients) {
+
+        try {
+
+            String[] recipientsList = recipients.split("\\,");
+
+            for (String recipient : recipientsList) {
+                message.addRecipient(type, new InternetAddress(recipient));
             }
-        });
+
+        } catch (Exception e) {
+
+            Toast.makeText(getApplicationContext(), "Could not add recipients" + type + e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+        }
 
     }
 
     private Session authenticate(final String userName, final String password) {
-
-
-        Session session = null;
 
         try {
             Properties props = System.getProperties();
@@ -181,9 +217,37 @@ public class VoiceEmailActivity extends AppCompatActivity {
                 }
             });
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Email Could authenticated" + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Email Could authenticated" + e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
         }
 
         return session;
     }
+
+    private void inputOnClickListener(EditText eText, final int code) {
+
+        eText.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+
+                try {
+
+                    startActivityForResult(intent, code);
+
+                } catch (ActivityNotFoundException a) {
+
+                    Toast.makeText(getApplicationContext(), "Oops! Your device doesn't support Speech to Text", Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+        });
+
+    }
+
+
 }
