@@ -15,28 +15,93 @@ import android.widget.Toast.*;
 
 public class SendMailSSL {
 
-    public SendMailSSL(final String from, final String password, String toEmails, String ccEmail, String bccEmail, String subject, String body) throws Exception {
+    MimeMessage message = null;
+    Session session = null;
+    String packageName = "com.google.android.gm";
 
-        String packageName = "com.google.android.gm";
+    protected void sendEmail(final Activity Activity,Session AuthSession, String toEmail,String ccEmail, String bccEmail,String subjectEmail, String bodyEmail) {
+
+        try {
+
+            String editTextFrom = Activity.getIntent().getStringExtra("FROM");
+            //compose message
+            MimeMessage message = this.composeMessage(Activity, AuthSession, toEmail, ccEmail, bccEmail, editTextFrom, subjectEmail, bodyEmail);
+
+            //send message to
+            Transport.send(message);
+
+            Toast.makeText(Activity.getApplicationContext(), "Email Sent Successfully", Toast.LENGTH_LONG)
+                    .show();
+
+        } catch (Exception e) {
+
+            Toast.makeText(Activity.getApplicationContext(), "Email Could not be Sent" + e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
 
 
-        String[] TO = toEmails.split("\\,");
-        String[] CC = ccEmail.split("\\,");
-        String[] BCC = bccEmail.split("\\,");
 
+    private MimeMessage composeMessage(final Activity Activity,Session session, String toEmail, String ccEmail, String bccEmail, String editTxtFrom, String subjectEmail, String bodyEmail) {
 
-        try
+        try {
 
-        {
+            message = new MimeMessage(session);
+
+            //setting who is sending an email
+            message.setFrom(new InternetAddress(editTxtFrom));//change accordingly
+
+            //adding all types of recipients of an email
+            if(toEmail != null && !toEmail.isEmpty())
+                addRecipients(Activity,message, Message.RecipientType.TO, toEmail);
+            if(ccEmail != null && !ccEmail.isEmpty())
+                addRecipients(Activity,message, Message.RecipientType.CC, ccEmail);
+            if(bccEmail != null && !bccEmail.isEmpty())
+                addRecipients(Activity,message, Message.RecipientType.BCC, bccEmail);
+
+            //setting subject and body of an email
+            message.setSubject(subjectEmail);
+            message.setText(bodyEmail);
+
+        } catch (Exception e) {
+
+            Toast.makeText(Activity.getApplicationContext(), "Could not compose message" + e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+        }
+
+        return message;
+    }
+
+    private void addRecipients(final Activity Activity, Message message, Message.RecipientType type, String recipients) {
+
+        String[] recipientsList = recipients.split("\\,");
+
+        try {
+
+            for (String recipient : recipientsList) {
+                message.addRecipient(type, new InternetAddress(recipient));
+            }
+        } catch (Exception e) {
+
+            Toast.makeText(Activity.getApplicationContext(), "Could not add recipients" + type + e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+        }
+
+    }
+
+    private Session authenticate(final Activity Activity, final String userName, final String password) {
+
+        try {
             Properties props = System.getProperties();
 
-            if (from.contains("gmail")) {
+            if (userName.contains("gmail")) {
                 //Get the session object
                 props.put("mail.smtp.auth", "true");
                 props.put("mail.smtp.starttls.enable", "true");
                 props.put("mail.smtp.host", "smtp.gmail.com");
                 props.put("mail.smtp.port", "587");
-            } else if (from.contains("yahoo")) {
+
+            } else if (userName.contains("yahoo")) {
 
                 packageName = "com.yahoo.mobile.client.android.mail";
 
@@ -48,98 +113,16 @@ public class SendMailSSL {
                 props.put("mail.smtp.port", "587");
             }
 
-            Session session = Session.getDefaultInstance(props, new Authenticator() {
+            session = Session.getDefaultInstance(props, new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(from, password);//change accordingly
+                    return new PasswordAuthentication(userName, password);//change accordingly
                 }
             });
-
-            //compose message
-
-            MimeMessage message = new MimeMessage(session);
-
-            message.setFrom(new InternetAddress(from));//change accordingly
-
-            for (String email : TO) {
-                message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-            }
-
-            for (String email : CC) {
-                message.addRecipient(Message.RecipientType.CC, new InternetAddress(email));
-            }
-            for (String email : BCC) {
-                message.addRecipient(Message.RecipientType.BCC, new InternetAddress(email));
-            }
-
-            message.setSubject(subject);
-            message.setText(body);
-
-            //send messageti
-            Transport.send(message);
-//            Toast.makeText(getApplicationContext(), "Email Sent Successfully", Toast.LENGTH_LONG).show();
-
-//            if (from.contains("gmail")) {
-//                Intent mailIntent = Activity.getPackageManager().getLaunchIntentForPackage(packageName);
-//
-//                if (mailIntent != null)
-//                    startActivity(mailIntent);
-//            }
-
-        } catch(Exception e) {
-            e.printStackTrace();
-//            Toast.makeText(getApplicationContext(), "Email Could not be Sent" + e.getMessage(), Toast.LENGTH_LONG).show();
-
+        } catch (Exception e) {
+            Toast.makeText(Activity.getApplicationContext(), "Email Could not authenticated" + e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
         }
+
+        return session;
     }
-
-
-//    public Session authenticate(final String fromEmail, final String password) {
-//
-//        Properties props = new Properties();
-//        if (session == null) {
-//            if (fromEmail.toLowerCase().contains("gmail")) {
-//
-//                //Get the session object
-//                props.put("mail.smtp.auth", "true");
-//                props.put("mail.smtp.starttls.enable", "true");
-//                props.put("mail.smtp.host", "smtp.gmail.com");
-//                props.put("mail.smtp.port", "587");
-//
-//
-//            } else if (fromEmail.toLowerCase().contains("yahoo")) {
-//                props.put("mail.smtp.host", "smtp.mail.yahoo.com");
-//                props.put("mail.smtp.socketFactory.port", "587");
-//                props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-//                props.put("mail.smtp.auth", "true");
-//                props.put("mail.smtp.port", "587");
-//            }
-//
-//            session = Session.getInstance(props, new Authenticator() {
-//                protected PasswordAuthentication getPasswordAuthentication() {
-//
-//                    return new PasswordAuthentication(fromEmail, password);//change accordingly
-//                }
-//            });
-//        } else {
-//            session = Session.getDefaultInstance(props);
-//        }
-//        return session;
-//
-//    }
-
-
-//    public void sendMail(final String fromEmail, final String password) {
-//
-//
-//        MimeMessage message = new MimeMessage(authenticate(fromEmail, password));
-//        try {
-//            message.setFrom(new InternetAddress(fromEmail));
-//            message.addRecipient(Message.RecipientType.TO, new InternetAddress(fromEmail));
-//            message.setSubject("Test");
-//            Transport.send(message);
-//
-//        }catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
 }

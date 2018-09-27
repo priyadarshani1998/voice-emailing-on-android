@@ -206,7 +206,7 @@ public class VoiceEmailActivity extends AppCompatActivity {
                 }
             });
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Email Could authenticated" + e.getMessage(), Toast.LENGTH_LONG)
+            Toast.makeText(getApplicationContext(), "Email Could not authenticate" + e.getMessage(), Toast.LENGTH_LONG)
                     .show();
         }
 
