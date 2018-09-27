@@ -29,7 +29,7 @@ public class SendMailSSL {
 
             //send message to
             Transport.send(message);
-
+            //open app
             Toast.makeText(Activity.getApplicationContext(), "Email Sent Successfully", Toast.LENGTH_LONG)
                     .show();
 
