@@ -30,13 +30,9 @@ public class VoiceEmailActivity extends AppCompatActivity {
     protected static final int RESULT_SPEECH = 1;
     protected static final int SEND_CODE = 200;
 
-    private ImageButton btnSpeakCC, btnSpeakSub, btnSpeakEB;
     private FloatingActionButton btnSpeakTO;
-    private TextView txtText;
 
     public EditText editTxtTO, editTxtCC, editTxtBCC, editTxtSub, editTxtEB;
-    // private Button btnSendE
-    //SendMailSSL smssl;
     String fr = null, password = null, txt_cc = null, txt_sub = null, txt_eb = null, txt_to = null, dd = null, ddd = null;
 
     @Override
@@ -45,6 +41,7 @@ public class VoiceEmailActivity extends AppCompatActivity {
         setContentView(com.bhanu.mini.R.layout.activity_email);
         getSupportActionBar().setIcon(com.bhanu.mini.R.drawable.ic_action_name2);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         if (Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -59,7 +56,6 @@ public class VoiceEmailActivity extends AppCompatActivity {
 
         btnSpeakTO = (FloatingActionButton) findViewById(com.bhanu.mini.R.id.send_button);
 
-        //btnSendEmail = (Button)findViewById(R.id.btnEmail
 
         inputOnClickListener(editTxtTO, RESULT_SPEECH);
         inputOnClickListener(editTxtCC, RESULT_SPEECH);
@@ -109,7 +105,7 @@ public class VoiceEmailActivity extends AppCompatActivity {
                 props.put("mail.smtp.port", "587");
             } else if (fr.contains("yahoo")) {
 
-                packageName ="com.yahoo.mobile.client.android.mail";
+                packageName = "com.yahoo.mobile.client.android.mail";
 
                 props.put("mail.smtp.host", "smtp.mail.yahoo.com");
                 props.put("mail.smtp.socketFactory.port", "587");
@@ -149,16 +145,15 @@ public class VoiceEmailActivity extends AppCompatActivity {
             Transport.send(message);
             Toast.makeText(getApplicationContext(), "Email Sent Successfully", Toast.LENGTH_LONG).show();
 
-            if (fr.contains("gmail")) {
-                Intent mailIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+            Intent mailIntent = getPackageManager().getLaunchIntentForPackage(packageName);
 
-                if (mailIntent != null)
-                    startActivity(mailIntent);
-            }
+            if (mailIntent != null)
+                startActivity(mailIntent);
 
         } catch (Exception e) {
             //e.printStackTrace();
-            Toast.makeText(getApplicationContext(),"Email Could not be Sent" + e.getMessage() ,Toast.LENGTH_LONG).show();;
+            Toast.makeText(getApplicationContext(), "Email Could not be Sent" + e.getMessage(), Toast.LENGTH_LONG).show();
+            ;
         }
     }
 

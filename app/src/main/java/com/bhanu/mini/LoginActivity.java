@@ -12,6 +12,7 @@ import android.os.Bundle;
 
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -35,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     public EditText editTxtFrom, editTxtPwd;
     String from = null, Pwd = null;
 
-    SendMailSSL sendMailSSL;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(com.bhanu.mini.R.layout.activity_login);
-        sendMailSSL = new SendMailSSL();
 
         if (Build.VERSION.SDK_INT > 9) {
 
@@ -54,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         editTxtFrom = (EditText) findViewById(com.bhanu.mini.R.id.txt_usr);
         editTxtPwd = (EditText) findViewById(com.bhanu.mini.R.id.txt_pwd);
         btnSubmit = (Button) findViewById(com.bhanu.mini.R.id.btn_sbt);
+
 
         inputOnClickListener(editTxtFrom, EMAIL_VOICE_CODE);
         inputOnClickListener(editTxtPwd, PASSWORD_VOICE_CODE);
@@ -70,8 +70,6 @@ public class LoginActivity extends AppCompatActivity {
 
                         from = editTxtFrom.getText().toString();
                         Pwd = editTxtPwd.getText().toString();
-                        sendMailSSL.sendMail(from,Pwd);
-
 
 
                         Properties props = new Properties();
