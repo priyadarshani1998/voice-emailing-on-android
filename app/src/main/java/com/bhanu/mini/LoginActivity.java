@@ -51,14 +51,15 @@ public class LoginActivity extends AppCompatActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-
+        //initialize text fields
         editTxtFrom = (EditText) findViewById(com.bhanu.mini.R.id.txt_usr);
         editTxtPwd = (EditText) findViewById(com.bhanu.mini.R.id.txt_pwd);
+        //initialize login button
         btnSubmit = (Button) findViewById(com.bhanu.mini.R.id.btn_sbt);
 
 
-        ClickListener.inputOnClickListener(editTxtFrom, loginActivity,EMAIL_VOICE_CODE);
-        ClickListener.inputOnClickListener(editTxtPwd,loginActivity, PASSWORD_VOICE_CODE);
+        ClickListener.inputClick(editTxtFrom, loginActivity,EMAIL_VOICE_CODE);
+        ClickListener.inputClick(editTxtPwd,loginActivity, PASSWORD_VOICE_CODE);
 
         textChange(editTxtFrom);
         textChange(editTxtPwd);
@@ -74,48 +75,20 @@ public class LoginActivity extends AppCompatActivity {
                         Pwd = editTxtPwd.getText().toString();
 
 
-                        Properties props = new Properties();
-                        //Toast.makeText(getApplicationContext(),from+" "+Pwd+" Entered Port Authentication",Toast.LENGTH_LONG).show();
-
-                        if (from.toLowerCase().contains("gmail")) {
-
-                            //Get the session object
-                            //  Toast.makeText(getApplicationContext(),"Entered Port Authentication",Toast.LENGTH_LONG).show();
-                            props.put("mail.smtp.auth", "true");
-                            props.put("mail.smtp.starttls.enable", "true");
-                            props.put("mail.smtp.host", "smtp.gmail.com");
-                            props.put("mail.smtp.port", "587");
-
-
-                        } else if (from.toLowerCase().contains("yahoo")) {
-                            props.put("mail.smtp.host", "smtp.mail.yahoo.com");
-                            props.put("mail.smtp.socketFactory.port", "587");
-                            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                            props.put("mail.smtp.auth", "true");
-                            props.put("mail.smtp.port", "587");
-                        }
-
-                        Session session = Session.getInstance(props, new Authenticator() {
-                            protected PasswordAuthentication getPasswordAuthentication() {
-
-                                return new PasswordAuthentication(from, Pwd);//change accordingly
-                            }
-                        });
                         try {
                             Toast.makeText(getApplicationContext(), "Authenticating, We respect your privacy", Toast.LENGTH_LONG).show();
 
-                            Intent i = new Intent(LoginActivity.this, VoiceEmailActivity.class);
-                            i.putExtra("FROM", from);
-                            i.putExtra("PWD", Pwd);
-                            startActivity(i);
+                            Intent mailActivity = new Intent(LoginActivity.this, VoiceEmailActivity.class);
+                            mailActivity.putExtra("FROM", from);
+                            mailActivity.putExtra("PWD", Pwd);
+
+                            startActivity(mailActivity);
 
                         } catch (Exception e) {
-
 
                             Toast.makeText(getApplicationContext(), "Invalid Id/Password", Toast.LENGTH_LONG).show();
 
                         }
-
 
                     } else {
                         Toast.makeText(getApplicationContext(), "Enter Password", Toast.LENGTH_LONG).show();
@@ -123,8 +96,8 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    Toast.makeText(getApplicationContext(), "Invalid/not supported Email ID", Toast.LENGTH_LONG).show();
 
+                    Toast.makeText(getApplicationContext(), "Invalid/not supported Email ID", Toast.LENGTH_LONG).show();
                 }
             }
         });

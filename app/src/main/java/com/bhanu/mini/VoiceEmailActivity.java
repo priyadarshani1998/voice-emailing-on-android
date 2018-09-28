@@ -23,13 +23,12 @@ import javax.mail.*;
 public class VoiceEmailActivity extends AppCompatActivity {
 
     protected static final int RESULT_SPEECH = 1;
-//    MimeMessage message = null;
+    //    MimeMessage message = null;
 //    Session     session = null;
-    Activity vmActivity;
+    Activity    vmActivity;
     SendMailSSL SendMailSSL;
 
-
-    String packageName = "com.google.android.gm";
+//    String packageName = "com.google.android.gm";
 
     private FloatingActionButton btnSpeakTO;
 
@@ -63,22 +62,23 @@ public class VoiceEmailActivity extends AppCompatActivity {
             StrictMode.setThreadPolicy(policy);
         }
 
+        //initialize text fields
         editTxtTO = (EditText) findViewById(R.id.to_email);
         editTxtCC = (EditText) findViewById(R.id.cc_email);
         editTxtBCC = (EditText) findViewById(R.id.bcc_email);
         editTxtSub = (EditText) findViewById(R.id.subject_email);
         editTxtEB = (EditText) findViewById(R.id.body_email);
-
+        //initialize send button
         btnSpeakTO = (FloatingActionButton) findViewById(com.bhanu.mini.R.id.send_button);
 
+        //add click input click listener
+        ClickListener.inputClick(editTxtTO, vmActivity, RESULT_SPEECH);
+        ClickListener.inputClick(editTxtCC, vmActivity, RESULT_SPEECH);
+        ClickListener.inputClick(editTxtBCC, vmActivity, RESULT_SPEECH);
+        ClickListener.inputClick(editTxtSub, vmActivity, RESULT_SPEECH);
+        ClickListener.inputClick(editTxtEB, vmActivity, RESULT_SPEECH);
 
-        ClickListener.inputOnClickListener(editTxtTO, vmActivity, RESULT_SPEECH);
-        ClickListener.inputOnClickListener(editTxtCC, vmActivity, RESULT_SPEECH);
-        ClickListener.inputOnClickListener(editTxtBCC, vmActivity, RESULT_SPEECH);
-        ClickListener.inputOnClickListener(editTxtSub, vmActivity, RESULT_SPEECH);
-        ClickListener.inputOnClickListener(editTxtEB, vmActivity, RESULT_SPEECH);
-
-
+        //add click to send button
         btnSpeakTO.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -91,41 +91,32 @@ public class VoiceEmailActivity extends AppCompatActivity {
                 subjectEmail = editTxtSub.getText().toString();
                 bodyEmail = editTxtEB.getText().toString();
 
-                try {
+                Session AuthSession = SendMailSSL.authenticate(
+                        vmActivity,
+                        editTxtFrom,
+                        password);
 
-                    Session AuthSession = SendMailSSL.authenticate(
-                            vmActivity,
-                            editTxtFrom,
-                            password);
-
-                    SendMailSSL.sendEmail(
-                            vmActivity,
-                            AuthSession,
-                            toEmail,
-                            ccEmail,
-                            bccEmail,
-                            subjectEmail,
-                            bodyEmail);
-
-                    openEmailApp();
-
-                }catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Something went wrong!!", Toast.LENGTH_LONG)
-                    .show();
-                }
+                SendMailSSL.sendEmail(
+                        vmActivity,
+                        AuthSession,
+                        toEmail,
+                        ccEmail,
+                        bccEmail,
+                        subjectEmail,
+                        bodyEmail);
             }
         });
     }
 
 
-    private void openEmailApp() {
-
-        Intent mailIntent = getPackageManager().getLaunchIntentForPackage(packageName);
-
-        if (mailIntent != null)
-            startActivity(mailIntent);
-
-    }
+//    private void openEmailApp() {
+//
+//        Intent mailIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+//
+//        if (mailIntent != null)
+//            startActivity(mailIntent);
+//
+//    }
 
 //
 //    protected void sendEmail() {

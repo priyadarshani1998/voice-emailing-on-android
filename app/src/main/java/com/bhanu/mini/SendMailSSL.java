@@ -1,6 +1,7 @@
 package com.bhanu.mini;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.widget.Toast;
 
 import java.util.Properties;
@@ -25,6 +26,7 @@ public class SendMailSSL {
             //send message to
             Transport.send(message);
             //open app
+            this.openEmailApp(Activity);
             Toast.makeText(Activity.getApplicationContext(), "Email Sent Successfully", Toast.LENGTH_LONG)
                     .show();
 
@@ -33,6 +35,14 @@ public class SendMailSSL {
             Toast.makeText(Activity.getApplicationContext(), "Email Could not be Sent" + e.getMessage(), Toast.LENGTH_LONG)
                     .show();
         }
+    }
+    private void openEmailApp(Activity Activity) {
+
+        Intent mailIntent = Activity.getPackageManager().getLaunchIntentForPackage(packageName);
+
+        if (mailIntent != null)
+            Activity.startActivity(mailIntent);
+
     }
 
 

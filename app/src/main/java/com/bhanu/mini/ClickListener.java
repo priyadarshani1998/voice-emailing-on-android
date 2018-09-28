@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public abstract class ClickListener implements View.OnClickListener {
 
-    protected static void inputOnClickListener(EditText editText, final Activity Activity, final int code) {
+    public static void inputClick(EditText editText, final Activity Activity, final int code) {
 
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
