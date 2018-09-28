@@ -1,7 +1,6 @@
 package com.bhanu.mini;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.widget.Toast;
 
 import java.util.Properties;
@@ -37,7 +36,7 @@ public class SendMailSSL {
     }
 
 
-    private MimeMessage composeMessage(final Activity Activity, Session session, String toEmail, String ccEmail, String bccEmail, String editTxtFrom, String subjectEmail, String bodyEmail) {
+    protected MimeMessage composeMessage(final Activity Activity, Session session, String toEmail, String ccEmail, String bccEmail, String editTxtFrom, String subjectEmail, String bodyEmail) {
 
         try {
 
@@ -84,7 +83,7 @@ public class SendMailSSL {
 
     }
 
-    private Session authenticate(final Activity Activity, final String userName, final String password) {
+    protected Session authenticate(final Activity Activity, final String userName, final String password) {
 
         try {
             Properties props = System.getProperties();
