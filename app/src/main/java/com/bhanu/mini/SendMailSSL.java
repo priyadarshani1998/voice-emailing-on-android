@@ -4,22 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.Properties;
 
 import javax.mail.*;
 import javax.mail.internet.*;
-import javax.activation.*;
-
-import android.widget.Toast.*;
 
 public class SendMailSSL {
 
-    MimeMessage message = null;
-    Session session = null;
-    String packageName = "com.google.android.gm";
+    MimeMessage message     = null;
+    Session     session     = null;
+    String      packageName = "com.google.android.gm";
 
-    protected void sendEmail(final Activity Activity,Session AuthSession, String toEmail,String ccEmail, String bccEmail,String subjectEmail, String bodyEmail) {
+    protected void sendEmail(final Activity Activity, Session AuthSession, String toEmail, String ccEmail, String bccEmail, String subjectEmail, String bodyEmail) {
 
         try {
 
@@ -41,8 +37,7 @@ public class SendMailSSL {
     }
 
 
-
-    private MimeMessage composeMessage(final Activity Activity,Session session, String toEmail, String ccEmail, String bccEmail, String editTxtFrom, String subjectEmail, String bodyEmail) {
+    private MimeMessage composeMessage(final Activity Activity, Session session, String toEmail, String ccEmail, String bccEmail, String editTxtFrom, String subjectEmail, String bodyEmail) {
 
         try {
 
@@ -52,12 +47,12 @@ public class SendMailSSL {
             message.setFrom(new InternetAddress(editTxtFrom));//change accordingly
 
             //adding all types of recipients of an email
-            if(toEmail != null && !toEmail.isEmpty())
-                addRecipients(Activity,message, Message.RecipientType.TO, toEmail);
-            if(ccEmail != null && !ccEmail.isEmpty())
-                addRecipients(Activity,message, Message.RecipientType.CC, ccEmail);
-            if(bccEmail != null && !bccEmail.isEmpty())
-                addRecipients(Activity,message, Message.RecipientType.BCC, bccEmail);
+            if (toEmail != null && !toEmail.isEmpty())
+                addRecipients(Activity, message, Message.RecipientType.TO, toEmail);
+            if (ccEmail != null && !ccEmail.isEmpty())
+                addRecipients(Activity, message, Message.RecipientType.CC, ccEmail);
+            if (bccEmail != null && !bccEmail.isEmpty())
+                addRecipients(Activity, message, Message.RecipientType.BCC, bccEmail);
 
             //setting subject and body of an email
             message.setSubject(subjectEmail);
@@ -95,7 +90,7 @@ public class SendMailSSL {
             Properties props = System.getProperties();
 
             if (userName.contains("gmail")) {
-                //Get the session object
+
                 props.put("mail.smtp.auth", "true");
                 props.put("mail.smtp.starttls.enable", "true");
                 props.put("mail.smtp.host", "smtp.gmail.com");
@@ -122,7 +117,7 @@ public class SendMailSSL {
             Toast.makeText(Activity.getApplicationContext(), "Email Could not authenticated" + e.getMessage(), Toast.LENGTH_LONG)
                     .show();
         }
-
+        //Get the session object
         return session;
     }
 }
