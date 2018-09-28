@@ -16,12 +16,12 @@ public abstract class ClickListener implements View.OnClickListener {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                Intent voiceInput = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+                voiceInput.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
 
                 try {
-                    Activity.startActivityForResult(intent, code);
+                    Activity.startActivityForResult(voiceInput, code);
 
                 } catch (ActivityNotFoundException a) {
 
