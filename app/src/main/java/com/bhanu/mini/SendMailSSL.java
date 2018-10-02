@@ -76,6 +76,10 @@ public class SendMailSSL {
         return message;
     }
 
+    public void logout(Activity Activity) {
+        session = null;
+        Activity.finish();
+    }
     private void addRecipients(final Activity Activity, Message message, Message.RecipientType type, String recipients) {
 
         String[] recipientsList = recipients.split("\\,");

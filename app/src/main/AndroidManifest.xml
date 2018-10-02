@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="com.bhanu.mini.LoginActivity"
+            android:noHistory="true"
             android:label="Voice Based E-Mail">
         </activity>
         <activity android:name="com.bhanu.mini.VoiceEmailActivity">
