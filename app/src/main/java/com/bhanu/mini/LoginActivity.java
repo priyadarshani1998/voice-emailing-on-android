@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     String from = null, password = null;
     Activity loginActivity;
     SendMailSSL SendMailSSL;
+    View view;
 
     Session authSession = null;
 
@@ -53,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(com.bhanu.mini.R.layout.activity_login);
         loginActivity = LoginActivity.this;
         SendMailSSL = new SendMailSSL();
+        view = findViewById(R.id.login_form);
 
         if (Build.VERSION.SDK_INT > 9) {
 
@@ -70,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         // Check if UserResponse is Already Logged In
         if (SendMailSSL.session != null && SaveSharedPreference.getLoggedStatus(getApplicationContext())) {
             SaveSharedPreference.setLoggedIn(getApplicationContext(), true);
+            Toast.makeText(getApplicationContext(), "Already Logged in.!!", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(), VoiceEmailActivity.class);
             startActivity(intent);
         } else
@@ -84,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
 
         btnSubmit.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Authenticating Your Login...", Toast.LENGTH_LONG).show();
+                Snackbar.make(view, "Authenticating Your Login...", Toast.LENGTH_LONG).show();
 
                 if (editTxtFrom.getText().toString().contains("@") && (editTxtFrom.getText().toString().toLowerCase().contains("gmail.com") || editTxtFrom.getText().toString().toLowerCase().contains("yahoo.co"))) {
                     if (!editTxtPwd.getText().toString().equalsIgnoreCase("")) {
@@ -96,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         SendMailSSL.session = authSession;
                         SendMailSSL.fromEmail = from;
-                        Toast.makeText(getApplicationContext(), "Authenticating, We respect your privacy", Toast.LENGTH_LONG).show();
+                        Snackbar.make(view, "Authenticating, We respect your privacy", Toast.LENGTH_LONG).show();
                         try {
 
                             if (authSession != null) {
@@ -107,17 +110,17 @@ public class LoginActivity extends AppCompatActivity {
 
                         } catch (Exception e) {
 
-                            Toast.makeText(getApplicationContext(), "Invalid Id/Password", Toast.LENGTH_LONG).show();
+                            Snackbar.make(view, "Invalid Id/Password", Toast.LENGTH_LONG).show();
                         }
 
                     } else {
-                        Toast.makeText(getApplicationContext(), "Enter Password", Toast.LENGTH_LONG).show();
+                        Snackbar.make(view, "Enter Password", Toast.LENGTH_LONG).show();
 
                     }
 
                 } else {
 
-                    Toast.makeText(getApplicationContext(), "Invalid/not supported Email ID", Toast.LENGTH_LONG).show();
+                    Snackbar.make(view, "Invalid/not supported Email ID", Toast.LENGTH_LONG).show();
                 }
             }
         });

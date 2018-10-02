@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -29,7 +30,7 @@ public abstract class ClickListener implements View.OnClickListener {
 
                 } catch (ActivityNotFoundException a) {
 
-                    Toast.makeText(Activity.getApplicationContext(),
+                    Snackbar.make(view,
                             "Ops! Your device doesn't support Speech to Text",
                             Toast.LENGTH_SHORT).show();
                 }
