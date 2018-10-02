@@ -1,5 +1,7 @@
 package com.bhanu.mini;
 
+import android.accounts.AccountManager;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.SharedPreferences;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -35,34 +38,49 @@ public class LoginActivity extends AppCompatActivity {
     final int PASSWORD_VOICE_CODE = 200;
     private Button btnSubmit;
     public EditText editTxtFrom, editTxtPwd;
-    String from = null, Pwd = null;
+    LinearLayout loginForm;
+    String from = null, password = null;
     Activity loginActivity;
+    SendMailSSL SendMailSSL;
 
+    Session authSession = null;
 
+    @SuppressLint("WrongViewCast")
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(com.bhanu.mini.R.layout.activity_login);
         loginActivity = LoginActivity.this;
+        SendMailSSL = new SendMailSSL();
 
         if (Build.VERSION.SDK_INT > 9) {
 
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
+        loginForm = (LinearLayout) findViewById(R.id.login_form);
+
         //initialize text fields
         editTxtFrom = (EditText) findViewById(com.bhanu.mini.R.id.txt_usr);
         editTxtPwd = (EditText) findViewById(com.bhanu.mini.R.id.txt_pwd);
         //initialize login button
         btnSubmit = (Button) findViewById(com.bhanu.mini.R.id.btn_sbt);
 
+        // Check if UserResponse is Already Logged In
+        if (SendMailSSL.session != null && SaveSharedPreference.getLoggedStatus(getApplicationContext())) {
+            SaveSharedPreference.setLoggedIn(getApplicationContext(), true);
+            Intent intent = new Intent(getApplicationContext(), VoiceEmailActivity.class);
+            startActivity(intent);
+        } else
+            loginForm.setVisibility(View.VISIBLE);
 
-        ClickListener.inputClick(editTxtFrom, loginActivity,EMAIL_VOICE_CODE);
-        ClickListener.inputClick(editTxtPwd,loginActivity, PASSWORD_VOICE_CODE);
 
-        textChange(editTxtFrom);
-        textChange(editTxtPwd);
+        ClickListener.inputClick(editTxtFrom, loginActivity, EMAIL_VOICE_CODE);
+        ClickListener.inputClick(editTxtPwd, loginActivity, PASSWORD_VOICE_CODE);
+
+//        textChange(editTxtFrom);
+//        textChange(editTxtPwd);
 
         btnSubmit.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
@@ -72,22 +90,24 @@ public class LoginActivity extends AppCompatActivity {
                     if (!editTxtPwd.getText().toString().equalsIgnoreCase("")) {
 
                         from = editTxtFrom.getText().toString();
-                        Pwd = editTxtPwd.getText().toString();
+                        password = editTxtPwd.getText().toString();
 
+                        authSession = SendMailSSL.authenticate(loginActivity, from, password);
 
+                        SendMailSSL.session = authSession;
+                        SendMailSSL.fromEmail = from;
+                        Toast.makeText(getApplicationContext(), "Authenticating, We respect your privacy", Toast.LENGTH_LONG).show();
                         try {
-                            Toast.makeText(getApplicationContext(), "Authenticating, We respect your privacy", Toast.LENGTH_LONG).show();
 
-                            Intent mailActivity = new Intent(LoginActivity.this, VoiceEmailActivity.class);
-                            mailActivity.putExtra("FROM", from);
-                            mailActivity.putExtra("PWD", Pwd);
-
-                            startActivity(mailActivity);
+                            if (authSession != null) {
+                                Intent mailActivity = new Intent(LoginActivity.this, VoiceEmailActivity.class);
+                                mailActivity.putExtra("FROM", from);
+                                startActivity(mailActivity);
+                            }
 
                         } catch (Exception e) {
 
                             Toast.makeText(getApplicationContext(), "Invalid Id/Password", Toast.LENGTH_LONG).show();
-
                         }
 
                     } else {
@@ -103,96 +123,52 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void textChange(final EditText eText) {
-
-        eText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.bhanu.mini.R.drawable.microphone), null);
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-
-
-                if (charSequence.length() != 0) {
-
-                    eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.bhanu.mini.R.drawable.icon_close), null);
-
-                } else {
-
-                    eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.bhanu.mini.R.drawable.microphone), null);
-
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.bhanu.mini.R.drawable.icon_close), null);
-            }
-        });
-    }
+//    private void textChange(final EditText eText) {
+//
+//        eText.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.bhanu.mini.R.drawable.microphone), null);
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+//
+//
+//                if (charSequence.length() != 0) {
+//
+//                    eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.bhanu.mini.R.drawable.icon_close), null);
+//
+//                } else {
+//
+//                    eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.bhanu.mini.R.drawable.microphone), null);
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.bhanu.mini.R.drawable.icon_close), null);
+//            }
+//        });
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case EMAIL_VOICE_CODE: {
-                if (resultCode == RESULT_OK && null != data) {
-
-                    ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-
-                    for (String result : results) {
-                        if (!result.equalsIgnoreCase("clean")) {
-                            try {
-
-                                editTxtFrom.setText(result);
-
-                                from = editTxtFrom.getText().toString();
-
-                            } catch (Exception e) {
-
-                                Toast.makeText(getApplicationContext(), "Couldn't enter email" + e.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        } else {
-                            editTxtFrom.setText("");
-                        }
-
-                    }
-
-                }
+            case EMAIL_VOICE_CODE:
+                ClickListener.setVoiceResult(loginActivity, editTxtFrom, requestCode, resultCode, data);
+                from = editTxtFrom.getText().toString();
                 break;
-            }
-            case PASSWORD_VOICE_CODE: {
-                if (resultCode == RESULT_OK && null != data) {
 
-                    ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-
-                    for (String result : results) {
-                        if (!result.equalsIgnoreCase("clear")) {
-                            try {
-
-                                editTxtPwd.setText(result);
-                                Pwd = editTxtPwd.getText().toString();
-
-                            } catch (Exception e) {
-
-                                Toast.makeText(getApplicationContext(), "Couldn't enter password" + e.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        } else {
-
-                            editTxtPwd.setText("");
-                        }
-
-                    }
-
-                }
+            case PASSWORD_VOICE_CODE:
+                ClickListener.setVoiceResult(loginActivity, editTxtPwd, requestCode, resultCode, data);
+                password = editTxtPwd.getText().toString();
                 break;
-            }
-
         }
     }
 

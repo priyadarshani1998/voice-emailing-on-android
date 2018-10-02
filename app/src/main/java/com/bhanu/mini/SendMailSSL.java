@@ -11,22 +11,22 @@ import javax.mail.internet.*;
 
 public class SendMailSSL {
 
-    MimeMessage message     = null;
-    Session     session     = null;
-    String      packageName = "com.google.android.gm";
+    MimeMessage message = null;
+    static Session session = null;
+    static String fromEmail = null;
+    String packageName = "com.google.android.gm";
 
-    protected void sendEmail(final Activity Activity, Session AuthSession, String toEmail, String ccEmail, String bccEmail, String subjectEmail, String bodyEmail) {
+    protected void sendEmail(final Activity Activity, String toEmail, String ccEmail, String bccEmail, String subjectEmail, String bodyEmail) {
 
         try {
-
-            String editTextFrom = Activity.getIntent().getStringExtra("FROM");
             //compose message
-            MimeMessage message = this.composeMessage(Activity, AuthSession, toEmail, ccEmail, bccEmail, editTextFrom, subjectEmail, bodyEmail);
+            MimeMessage message = this.composeMessage(Activity, this.session, toEmail, ccEmail, bccEmail, this.fromEmail, subjectEmail, bodyEmail);
 
             //send message to
             Transport.send(message);
             //open app
             this.openEmailApp(Activity);
+
             Toast.makeText(Activity.getApplicationContext(), "Email Sent Successfully", Toast.LENGTH_LONG)
                     .show();
 
@@ -36,13 +36,13 @@ public class SendMailSSL {
                     .show();
         }
     }
+
     private void openEmailApp(Activity Activity) {
 
         Intent mailIntent = Activity.getPackageManager().getLaunchIntentForPackage(packageName);
 
         if (mailIntent != null)
             Activity.startActivity(mailIntent);
-
     }
 
 
@@ -65,7 +65,7 @@ public class SendMailSSL {
 
             //setting subject and body of an email
             message.setSubject(subjectEmail);
-            message.setText(bodyEmail);
+            message.setText(formatBodyText(bodyEmail));
 
         } catch (Exception e) {
 
@@ -117,7 +117,7 @@ public class SendMailSSL {
                 props.put("mail.smtp.port", "587");
             }
 
-            session = Session.getDefaultInstance(props, new Authenticator() {
+            session = Session.getInstance(props, new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(userName, password);//change accordingly
                 }
@@ -129,4 +129,28 @@ public class SendMailSSL {
         //Get the session object
         return session;
     }
+
+    private String formatBodyText(String bodyText) {
+
+        bodyText = bodyText.replaceAll(" ","");
+        bodyText = bodyText.replaceAll(" ","");
+        bodyText = bodyText.replaceAll("full stop",".");
+        bodyText = bodyText.replaceAll("dot",".");
+        bodyText = bodyText.replaceAll("Dot",".");
+        bodyText = bodyText.replaceAll("question mark","?");
+        bodyText = bodyText.replaceAll("questionmark","?");
+        bodyText = bodyText.replaceAll("semicolon",";");
+        bodyText = bodyText.replaceAll("semi colon",";");
+        bodyText = bodyText.replaceAll("exclamation","!");
+        bodyText = bodyText.replaceAll("colon",":");
+        bodyText = bodyText.replaceAll("hyphen","-");
+        bodyText = bodyText.replaceAll("dash","-");
+        bodyText = bodyText.replaceAll("Dash","-");
+        bodyText = bodyText.replaceAll("underscore","_");
+        bodyText = bodyText.replaceAll("next line","\n");
+        bodyText = bodyText.replaceAll("comma",",");
+
+        return bodyText;
+    }
 }
+
