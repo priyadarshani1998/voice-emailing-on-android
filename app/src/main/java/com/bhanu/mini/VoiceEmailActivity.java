@@ -117,7 +117,7 @@ public class VoiceEmailActivity extends AppCompatActivity {
         }
 
         this.backClickedTwice = true;
-        Toast.makeText(this, "Please click BACK again to exit/logout", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Please click BACK(<-)again to exit/logout", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 

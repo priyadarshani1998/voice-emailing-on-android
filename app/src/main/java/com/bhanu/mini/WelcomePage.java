@@ -15,6 +15,9 @@ public class WelcomePage extends Activity {
         setContentView(com.bhanu.mini.R.layout.activity_launch_page);
     }
 
+    /**
+     * @param view
+     */
     public void goToLogin(View view) {
 
         Intent goToLogin = new Intent(WelcomePage.this, LoginActivity.class);

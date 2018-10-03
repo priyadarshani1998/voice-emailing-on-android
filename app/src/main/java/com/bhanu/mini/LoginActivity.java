@@ -1,23 +1,14 @@
 package com.bhanu.mini;
 
-import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.StrictMode;
-import android.speech.RecognizerIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -25,12 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Properties;
-
 import javax.mail.*;
-import javax.mail.internet.*;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -82,8 +68,6 @@ public class LoginActivity extends AppCompatActivity {
         ClickListener.inputClick(editTxtFrom, loginActivity, EMAIL_VOICE_CODE);
         ClickListener.inputClick(editTxtPwd, loginActivity, PASSWORD_VOICE_CODE);
 
-//        textChange(editTxtFrom);
-//        textChange(editTxtPwd);
 
         btnSubmit.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
@@ -125,38 +109,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-//    private void textChange(final EditText eText) {
-//
-//        eText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.bhanu.mini.R.drawable.microphone), null);
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-//
-//
-//                if (charSequence.length() != 0) {
-//
-//                    eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.bhanu.mini.R.drawable.icon_close), null);
-//
-//                } else {
-//
-//                    eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.bhanu.mini.R.drawable.microphone), null);
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                eText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(com.bhanu.mini.R.drawable.icon_close), null);
-//            }
-//        });
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -15,6 +15,11 @@ import static android.app.Activity.RESULT_OK;
 
 public abstract class ClickListener implements View.OnClickListener {
 
+    /**
+     * @param editText
+     * @param Activity
+     * @param code
+     */
     public static void inputClick(EditText editText, final Activity Activity, final int code) {
 
         editText.setOnClickListener(new View.OnClickListener() {
@@ -37,6 +42,12 @@ public abstract class ClickListener implements View.OnClickListener {
         });
     }
 
+    /**
+     * @param activity
+     * @param editText
+     * @param resultCode
+     * @param data
+     */
     public static void setVoiceResult(final Activity activity, EditText editText, int resultCode, Intent data) {
 
         if (resultCode == RESULT_OK && null != data) {
@@ -65,11 +76,20 @@ public abstract class ClickListener implements View.OnClickListener {
 
     }
 
+    /**
+     * @param activity
+     * @param message
+     */
     public static void toastMessage(final Activity activity, String message) {
 
         Toast.makeText(activity.getApplicationContext(), message , Toast.LENGTH_LONG).show();
 
     }
+
+    /**
+     * @param view
+     * @param message
+     */
     public static void snackMessage(View view, String message) {
 
         Snackbar.make(view, message, Toast.LENGTH_SHORT).show();
