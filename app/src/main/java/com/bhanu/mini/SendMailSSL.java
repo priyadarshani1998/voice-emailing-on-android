@@ -109,7 +109,7 @@ public class SendMailSSL {
         try {
 
             for (String recipient : recipientsList) {
-                message.addRecipient(type, new InternetAddress(recipient));
+                message.addRecipient(type, new InternetAddress(formattingEmail(recipient)));
             }
         } catch (Exception e) {
 
@@ -186,6 +186,24 @@ public class SendMailSSL {
 
         return bodyText;
     }
+
+    /**
+     * @param emailText
+     * @return formatted email
+     */
+    private String formattingEmail(String emailText) {
+
+        emailText = emailText.replaceAll(" ","");
+        emailText = emailText.replaceAll(" ","");
+        emailText = emailText.replaceAll("at","@");
+        emailText = emailText.replaceAll("At","@");
+        emailText = emailText.replaceAll("At the rate","@");
+        emailText = emailText.replaceAll("at the rate","@");
+        emailText = formatBodyText(emailText);
+
+        return emailText;
+    }
+
     /**
      * @param Activity
      */
