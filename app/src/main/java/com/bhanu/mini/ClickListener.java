@@ -30,15 +30,14 @@ public abstract class ClickListener implements View.OnClickListener {
 
                 } catch (ActivityNotFoundException a) {
 
-                    Snackbar.make(view,
-                            "Ops! Your device doesn't support Speech to Text",
-                            Toast.LENGTH_SHORT).show();
+                    snackMessage(view,"Oops! Your device doesn't support Speech to Text");
+
                 }
             }
         });
     }
 
-    public static void setVoiceResult(final Activity activity, EditText editText,int requestCode, int resultCode, Intent data) {
+    public static void setVoiceResult(final Activity activity, EditText editText, int resultCode, Intent data) {
 
         if (resultCode == RESULT_OK && null != data) {
 
@@ -53,7 +52,8 @@ public abstract class ClickListener implements View.OnClickListener {
 
                     } catch (Exception e) {
 
-                        Toast.makeText(activity.getApplicationContext(), "Couldn't convert voice to text" + e.getMessage(), Toast.LENGTH_LONG).show();
+                        toastMessage(activity,"Couldn't convert voice to text");
+
                     }
                 } else {
                     editText.setText("");
@@ -62,6 +62,17 @@ public abstract class ClickListener implements View.OnClickListener {
             }
 
         }
+
+    }
+
+    public static void toastMessage(final Activity activity, String message) {
+
+        Toast.makeText(activity.getApplicationContext(), message , Toast.LENGTH_LONG).show();
+
+    }
+    public static void snackMessage(View view, String message) {
+
+        Snackbar.make(view, message, Toast.LENGTH_SHORT).show();
 
     }
 }

@@ -164,12 +164,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case EMAIL_VOICE_CODE:
-                ClickListener.setVoiceResult(loginActivity, editTxtFrom, requestCode, resultCode, data);
+                ClickListener.setVoiceResult(loginActivity, editTxtFrom, resultCode, data);
                 from = editTxtFrom.getText().toString();
                 break;
 
             case PASSWORD_VOICE_CODE:
-                ClickListener.setVoiceResult(loginActivity, editTxtPwd, requestCode, resultCode, data);
+                ClickListener.setVoiceResult(loginActivity, editTxtPwd, resultCode, data);
                 password = editTxtPwd.getText().toString();
                 break;
         }
