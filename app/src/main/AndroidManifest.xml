@@ -11,8 +11,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="com.bhanu.mini.LoginActivity"
-            android:noHistory="true"
-            android:label="Voice Based E-Mail">
+            android:label="Voice Based E-Mail"
+            android:noHistory="true">
         </activity>
         <activity android:name="com.bhanu.mini.VoiceEmailActivity">
             <intent-filter>
@@ -26,7 +26,6 @@
             android:theme="@style/FullscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -30,8 +30,6 @@ public class VoiceEmailActivity extends AppCompatActivity {
     private EditText editTxtBCC;
     private EditText editTxtSub;
     private EditText editTxtEB;
-    private String editTxtFrom = null;
-    private String password = null;
     private String subjectEmail = null;
     private String bodyEmail = null;
 
@@ -46,8 +44,6 @@ public class VoiceEmailActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(com.bhanu.mini.R.drawable.ic_action_name2);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        editTxtFrom = this.getIntent().getStringExtra("FROM");
-        password = this.getIntent().getStringExtra("PWD");
 
         if (Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll()
@@ -97,19 +93,14 @@ public class VoiceEmailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_email, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.logout) {
             mailSSL.logout(vmActivity);
             return true;
@@ -143,19 +134,19 @@ public class VoiceEmailActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 1:
-                ClickListener.setVoiceResult(vmActivity, editTxtTO, requestCode, resultCode, data);
+                ClickListener.setVoiceResult(vmActivity, editTxtTO, resultCode, data);
                 break;
             case 2:
-                ClickListener.setVoiceResult(vmActivity, editTxtCC, requestCode, resultCode, data);
+                ClickListener.setVoiceResult(vmActivity, editTxtCC, resultCode, data);
                 break;
             case 3:
-                ClickListener.setVoiceResult(vmActivity, editTxtBCC, requestCode, resultCode, data);
+                ClickListener.setVoiceResult(vmActivity, editTxtBCC, resultCode, data);
                 break;
             case 4:
-                ClickListener.setVoiceResult(vmActivity, editTxtSub, requestCode, resultCode, data);
+                ClickListener.setVoiceResult(vmActivity, editTxtSub, resultCode, data);
                 break;
             case 5:
-                ClickListener.setVoiceResult(vmActivity, editTxtEB, requestCode, resultCode, data);
+                ClickListener.setVoiceResult(vmActivity, editTxtEB, resultCode, data);
                 break;
         }
     }
