@@ -168,8 +168,6 @@ public class SendMailSSL {
      */
     private String formatBodyText(String bodyText) {
 
-        bodyText = bodyText.replaceAll(" ","");
-        bodyText = bodyText.replaceAll(" ","");
         bodyText = bodyText.replaceAll("full stop",".");
         bodyText = bodyText.replaceAll("dot",".");
         bodyText = bodyText.replaceAll("Dot",".");
