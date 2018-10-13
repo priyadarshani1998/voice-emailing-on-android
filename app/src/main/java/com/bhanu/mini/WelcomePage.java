@@ -22,7 +22,7 @@ public class WelcomePage extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(com.bhanu.mini.R.layout.activity_launch_page);
-        goTo = (Button)findViewById(R.id.gotoLogin);
+        goTo = (Button) findViewById(R.id.gotoLogin);
 
 //        ClickListener.buttonClick(goTo, welcomeActivity, 1);
 
@@ -40,7 +40,7 @@ public class WelcomePage extends Activity {
                 } catch (ActivityNotFoundException a) {
 
                     Toast.makeText(getApplicationContext(),
-                            "Ops! Your device doesn't support Speech to Text",Toast.LENGTH_SHORT).show();
+                            "Ops! Your device doesn't support Speech to Text", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -50,16 +50,16 @@ public class WelcomePage extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 1:
-                ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-                if(text.get(0).equalsIgnoreCase("login")) {
+        ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-                    Intent goToLogin = new Intent(WelcomePage.this, LoginActivity.class);
-                    startActivity(goToLogin);
-                }
-                break;
+        for (String result : results) {
+
+            if (result.equalsIgnoreCase("login")) {
+
+                Intent goToLogin = new Intent(WelcomePage.this, LoginActivity.class);
+                startActivity(goToLogin);
+            }
         }
     }
 }

@@ -42,28 +42,6 @@ public abstract class ClickListener implements View.OnClickListener {
         });
     }
 
-    public static void buttonClick(Button button, final Activity Activity, final int code) {
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent voiceInput = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-                voiceInput.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-
-                try {
-                    Activity.startActivityForResult(voiceInput, code);
-
-                } catch (ActivityNotFoundException a) {
-
-                    toastMessage(Activity,
-                            "Ops! Your device doesn't support Speech to Text");
-                }
-            }
-        });
-    }
-
     /**
      * @param activity
      * @param editText
@@ -76,10 +54,12 @@ public abstract class ClickListener implements View.OnClickListener {
 
             ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
+            for (String result : results) {
+
                 if (!results.get(0).equalsIgnoreCase("clean")) {
                     try {
 
-                        editText.setText(results.get(0));
+                        editText.setText(result);
 
                     } catch (Exception e) {
 
@@ -89,6 +69,8 @@ public abstract class ClickListener implements View.OnClickListener {
                 } else {
                     editText.setText("");
                 }
+
+            }
 
         }
 
