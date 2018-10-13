@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
 
         btnSubmit.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                Snackbar.make(view, "Authenticating Your Login...", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Authenticating Your Login...", Toast.LENGTH_LONG).show();
 
                 if (editTxtFrom.getText().toString().contains("@") && (editTxtFrom.getText().toString().toLowerCase().contains("gmail.com") || editTxtFrom.getText().toString().toLowerCase().contains("yahoo.co"))) {
                     if (!editTxtPwd.getText().toString().equalsIgnoreCase("")) {
@@ -96,12 +96,10 @@ public class LoginActivity extends AppCompatActivity {
                         password = editTxtPwd.getText().toString();
 
                         authSession = SendMailSSL.authenticate(loginActivity, from, password);
-
-                        SendMailSSL.session = authSession;
                         SendMailSSL.fromEmail = from;
-                        Snackbar.make(view, "Authenticating, We respect your privacy", Toast.LENGTH_LONG).show();
+                        SendMailSSL.session = authSession;
+                        Toast.makeText(getApplicationContext(), "Authenticating, We respect your privacy", Toast.LENGTH_LONG).show();
                         try {
-
                             if (authSession != null) {
                                 Intent mailActivity = new Intent(LoginActivity.this, VoiceEmailActivity.class);
                                 mailActivity.putExtra("FROM", from);
@@ -110,17 +108,17 @@ public class LoginActivity extends AppCompatActivity {
 
                         } catch (Exception e) {
 
-                            Snackbar.make(view, "Invalid Id/Password", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Invalid Id/Password", Toast.LENGTH_LONG).show();
                         }
 
                     } else {
-                        Snackbar.make(view, "Enter Password", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Enter Password", Toast.LENGTH_LONG).show();
 
                     }
 
                 } else {
 
-                    Snackbar.make(view, "Invalid/not supported Email ID", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Invalid/not supported Email ID", Toast.LENGTH_LONG).show();
                 }
             }
         });

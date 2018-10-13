@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -18,6 +19,29 @@ public abstract class ClickListener implements View.OnClickListener {
     public static void inputClick(EditText editText, final Activity Activity, final int code) {
 
         editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent voiceInput = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+                voiceInput.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+
+                try {
+                    Activity.startActivityForResult(voiceInput, code);
+
+                } catch (ActivityNotFoundException a) {
+
+                    Snackbar.make(view,
+                            "Ops! Your device doesn't support Speech to Text",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public static void buttonClick(Button button, final Activity Activity, final int code) {
+
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
