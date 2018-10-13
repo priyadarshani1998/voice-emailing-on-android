@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +15,11 @@ import static android.app.Activity.RESULT_OK;
 
 public abstract class ClickListener implements View.OnClickListener {
 
+    /**
+     * @param editText
+     * @param Activity
+     * @param code
+     */
     public static void inputClick(EditText editText, final Activity Activity, final int code) {
 
         editText.setOnClickListener(new View.OnClickListener() {
@@ -31,9 +35,8 @@ public abstract class ClickListener implements View.OnClickListener {
 
                 } catch (ActivityNotFoundException a) {
 
-                    Snackbar.make(view,
-                            "Ops! Your device doesn't support Speech to Text",
-                            Toast.LENGTH_SHORT).show();
+                    toastMessage(Activity,"Oops! Your device doesn't support Speech to Text");
+
                 }
             }
         });
@@ -54,15 +57,20 @@ public abstract class ClickListener implements View.OnClickListener {
 
                 } catch (ActivityNotFoundException a) {
 
-                    Snackbar.make(view,
-                            "Ops! Your device doesn't support Speech to Text",
-                            Toast.LENGTH_SHORT).show();
+                    toastMessage(Activity,
+                            "Ops! Your device doesn't support Speech to Text");
                 }
             }
         });
     }
 
-    public static void setVoiceResult(final Activity activity, EditText editText,int requestCode, int resultCode, Intent data) {
+    /**
+     * @param activity
+     * @param editText
+     * @param resultCode
+     * @param data
+     */
+    public static void setVoiceResult(final Activity activity, EditText editText, int resultCode, Intent data) {
 
         if (resultCode == RESULT_OK && null != data) {
 
@@ -77,7 +85,8 @@ public abstract class ClickListener implements View.OnClickListener {
 
                     } catch (Exception e) {
 
-                        Toast.makeText(activity.getApplicationContext(), "Couldn't convert voice to text" + e.getMessage(), Toast.LENGTH_LONG).show();
+                        toastMessage(activity,"Couldn't convert voice to text");
+
                     }
                 } else {
                     editText.setText("");
@@ -88,4 +97,15 @@ public abstract class ClickListener implements View.OnClickListener {
         }
 
     }
+
+    /**
+     * @param activity
+     * @param message
+     */
+    public static void toastMessage(final Activity activity, String message) {
+
+        Toast.makeText(activity.getApplicationContext(), message , Toast.LENGTH_LONG).show();
+
+    }
+
 }

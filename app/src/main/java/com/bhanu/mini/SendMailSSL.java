@@ -16,11 +16,19 @@ public class SendMailSSL {
     static String fromEmail = null;
     String packageName = "com.google.android.gm";
 
+    /**
+     * @param Activity
+     * @param toEmail
+     * @param ccEmail
+     * @param bccEmail
+     * @param subjectEmail
+     * @param bodyEmail
+     */
     protected void sendEmail(final Activity Activity, String toEmail, String ccEmail, String bccEmail, String subjectEmail, String bodyEmail) {
 
         try {
             //compose message
-            MimeMessage message = this.composeMessage(Activity, this.session, toEmail, ccEmail, bccEmail, this.fromEmail, subjectEmail, bodyEmail);
+            MimeMessage message = this.composeMessage(Activity, this.session, toEmail, ccEmail, bccEmail, subjectEmail, bodyEmail);
 
             //send message to
             Transport.send(message);
@@ -37,6 +45,9 @@ public class SendMailSSL {
         }
     }
 
+    /**
+     * @param Activity
+     */
     private void openEmailApp(Activity Activity) {
 
         Intent mailIntent = Activity.getPackageManager().getLaunchIntentForPackage(packageName);
@@ -45,15 +56,24 @@ public class SendMailSSL {
             Activity.startActivity(mailIntent);
     }
 
-
-    protected MimeMessage composeMessage(final Activity Activity, Session session, String toEmail, String ccEmail, String bccEmail, String editTxtFrom, String subjectEmail, String bodyEmail) {
+    /**
+     * @param Activity
+     * @param session
+     * @param toEmail
+     * @param ccEmail
+     * @param bccEmail
+     * @param subjectEmail
+     * @param bodyEmail
+     * @return
+     */
+    protected MimeMessage composeMessage(final Activity Activity, Session session, String toEmail, String ccEmail, String bccEmail, String subjectEmail, String bodyEmail) {
 
         try {
 
             message = new MimeMessage(session);
 
             //setting who is sending an email
-            message.setFrom(new InternetAddress(editTxtFrom));//change accordingly
+            message.setFrom(new InternetAddress(this.fromEmail));//change accordingly
 
             //adding all types of recipients of an email
             if (toEmail != null && !toEmail.isEmpty())
@@ -76,11 +96,12 @@ public class SendMailSSL {
         return message;
     }
 
-    public void logout(Activity Activity) {
-        session = null;
-        Activity.finish();
-    }
-
+    /**
+     * @param Activity
+     * @param message
+     * @param type
+     * @param recipients
+     */
     private void addRecipients(final Activity Activity, Message message, Message.RecipientType type, String recipients) {
 
         String[] recipientsList = recipients.split("\\,");
@@ -88,7 +109,7 @@ public class SendMailSSL {
         try {
 
             for (String recipient : recipientsList) {
-                message.addRecipient(type, new InternetAddress(recipient));
+                message.addRecipient(type, new InternetAddress(formattingEmail(recipient)));
             }
         } catch (Exception e) {
 
@@ -98,6 +119,12 @@ public class SendMailSSL {
 
     }
 
+    /**
+     * @param Activity
+     * @param userName
+     * @param password
+     * @return Session
+     */
     protected Session authenticate(final Activity Activity, final String userName, final String password) {
 
         try {
@@ -135,6 +162,10 @@ public class SendMailSSL {
         return this.session;
     }
 
+    /**
+     * @param bodyText
+     * @return formatted email body
+     */
     private String formatBodyText(String bodyText) {
 
         bodyText = bodyText.replaceAll(" ", "");
@@ -156,6 +187,31 @@ public class SendMailSSL {
         bodyText = bodyText.replaceAll("comma", ",");
 
         return bodyText;
+    }
+
+    /**
+     * @param emailText
+     * @return formatted email
+     */
+    private String formattingEmail(String emailText) {
+
+        emailText = emailText.replaceAll(" ","");
+        emailText = emailText.replaceAll(" ","");
+        emailText = emailText.replaceAll("at","@");
+        emailText = emailText.replaceAll("At","@");
+        emailText = emailText.replaceAll("At the rate","@");
+        emailText = emailText.replaceAll("at the rate","@");
+        emailText = formatBodyText(emailText);
+
+        return emailText;
+    }
+
+    /**
+     * @param Activity
+     */
+    public void logout(Activity Activity) {
+        session = null;
+        Activity.finish();
     }
 }
 

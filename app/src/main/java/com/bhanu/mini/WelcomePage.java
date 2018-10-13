@@ -20,12 +20,10 @@ public class WelcomePage extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(com.bhanu.mini.R.layout.activity_launch_page);
-
         goTo = (Button)findViewById(R.id.gotoLogin);
 
         ClickListener.buttonClick(goTo, welcomeActivity, 1);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -13,7 +13,6 @@ public class SaveSharedPreference {
     }
 
     /**
-     * Set the Login Status
      * @param context
      * @param loggedIn
      */
