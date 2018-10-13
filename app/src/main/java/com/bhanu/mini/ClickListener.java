@@ -76,12 +76,10 @@ public abstract class ClickListener implements View.OnClickListener {
 
             ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-            for (String result : results) {
-
-                if (!result.equalsIgnoreCase("clean")) {
+                if (!results.get(0).equalsIgnoreCase("clean")) {
                     try {
 
-                        editText.setText(result);
+                        editText.setText(results.get(0));
 
                     } catch (Exception e) {
 
@@ -91,8 +89,6 @@ public abstract class ClickListener implements View.OnClickListener {
                 } else {
                     editText.setText("");
                 }
-
-            }
 
         }
 
