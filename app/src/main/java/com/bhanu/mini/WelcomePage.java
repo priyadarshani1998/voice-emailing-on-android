@@ -50,16 +50,34 @@ public class WelcomePage extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-
         ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+        Toast.makeText(getApplicationContext(), results.get(0), Toast.LENGTH_LONG).show();
+        System.out.println("login here"+results.get(0));
 
-        for (String result : results) {
-
-            if (result.equalsIgnoreCase("login")) {
-
+        switch (requestCode) {
+            case 1:
+                Toast.makeText(getApplicationContext(), results.get(0), Toast.LENGTH_LONG).show();
                 Intent goToLogin = new Intent(WelcomePage.this, LoginActivity.class);
                 startActivity(goToLogin);
-            }
+                break;
         }
     }
+//
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+//
+//        for (String result : results) {
+//
+//            if (result.equalsIgnoreCase("login")) {
+//
+//                Intent goToLogin = new Intent(WelcomePage.this, LoginActivity.class);
+//                startActivity(goToLogin);
+//            }
+//        }
+//    }
 }
