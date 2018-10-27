@@ -128,38 +128,38 @@ public class SendMailSSL {
     protected Session authenticate(final Activity Activity, final String userName, final String password) {
 
         try {
-            Properties props = System.getProperties();
+            Properties properties = System.getProperties();
 
             if (userName.contains("gmail")) {
 
-                props.put("mail.smtp.auth", "true");
-                props.put("mail.smtp.starttls.enable", "true");
-                props.put("mail.smtp.host", "smtp.gmail.com");
-                props.put("mail.smtp.port", "587");
+                properties.put("mail.smtp.auth", "true");
+                properties.put("mail.smtp.starttls.enable", "true");
+                properties.put("mail.smtp.host", "smtp.gmail.com");
+                properties.put("mail.smtp.port", "587");
 
             } else if (userName.contains("yahoo")) {
 
                 packageName = "com.yahoo.mobile.client.android.mail";
 
-                props.put("mail.smtp.host", "smtp.mail.yahoo.com");
-                props.put("mail.smtp.socketFactory.port", "587");
-                props.put("mail.smtp.socketFactory.class",
-                        "javax.net.ssl.SSLSocketFactory");
-                props.put("mail.smtp.auth", "true");
-                props.put("mail.smtp.port", "587");
+                properties.put("mail.smtp.host", "smtp.mail.yahoo.com");
+                properties.put("mail.smtp.socketFactory.port", "465");
+                properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                properties.put("mail.smtp.auth", "true");
+                properties.put("mail.smtp.port", "465");
             }
-
-            session = Session.getInstance(props, new Authenticator() {
+            this.session = Session.getDefaultInstance(properties, new javax.mail.Authenticator() {
+                @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(userName, password);//change accordingly
                 }
             });
+
         } catch (Exception e) {
             Toast.makeText(Activity.getApplicationContext(), "Email Could not authenticated" + e.getMessage(), Toast.LENGTH_LONG)
                     .show();
         }
         //Get the session object
-        return session;
+        return this.session;
     }
 
     /**
@@ -168,21 +168,23 @@ public class SendMailSSL {
      */
     private String formatBodyText(String bodyText) {
 
-        bodyText = bodyText.replaceAll("full stop",".");
-        bodyText = bodyText.replaceAll("dot",".");
-        bodyText = bodyText.replaceAll("Dot",".");
-        bodyText = bodyText.replaceAll("question mark","?");
-        bodyText = bodyText.replaceAll("questionmark","?");
-        bodyText = bodyText.replaceAll("semicolon",";");
-        bodyText = bodyText.replaceAll("semi colon",";");
-        bodyText = bodyText.replaceAll("exclamation","!");
-        bodyText = bodyText.replaceAll("colon",":");
-        bodyText = bodyText.replaceAll("hyphen","-");
-        bodyText = bodyText.replaceAll("dash","-");
-        bodyText = bodyText.replaceAll("Dash","-");
-        bodyText = bodyText.replaceAll("underscore","_");
-        bodyText = bodyText.replaceAll("next line","\n");
-        bodyText = bodyText.replaceAll("comma",",");
+        bodyText = bodyText.replaceAll(" ", "");
+        bodyText = bodyText.replaceAll(" ", "");
+        bodyText = bodyText.replaceAll("full stop", ".");
+        bodyText = bodyText.replaceAll("dot", ".");
+        bodyText = bodyText.replaceAll("Dot", ".");
+        bodyText = bodyText.replaceAll("question mark", "?");
+        bodyText = bodyText.replaceAll("questionmark", "?");
+        bodyText = bodyText.replaceAll("semicolon", ";");
+        bodyText = bodyText.replaceAll("semi colon", ";");
+        bodyText = bodyText.replaceAll("exclamation", "!");
+        bodyText = bodyText.replaceAll("colon", ":");
+        bodyText = bodyText.replaceAll("hyphen", "-");
+        bodyText = bodyText.replaceAll("dash", "-");
+        bodyText = bodyText.replaceAll("Dash", "-");
+        bodyText = bodyText.replaceAll("underscore", "_");
+        bodyText = bodyText.replaceAll("next line", "\n");
+        bodyText = bodyText.replaceAll("comma", ",");
 
         return bodyText;
     }

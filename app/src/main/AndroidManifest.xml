@@ -10,17 +10,21 @@
         android:label="Compose Email"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.bhanu.mini.LoginActivity"
+            android:name=".LoginActivity"
             android:label="Voice Based E-Mail"
             android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+            </intent-filter>
         </activity>
-        <activity android:name="com.bhanu.mini.VoiceEmailActivity">
+        <activity android:name=".VoiceEmailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.bhanu.mini.WelcomePage"
+            android:name=".WelcomePage"
+            android:noHistory="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="Voice Based E-Mail"
             android:theme="@style/FullscreenTheme">
