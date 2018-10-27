@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,10 +29,8 @@ public abstract class ClickListener implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 Intent voiceInput = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                voiceInput.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                voiceInput.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speech recognition");
-                voiceInput.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
 
+                voiceInput.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
                 try {
                     snackMessage(view, "input  click");
 
@@ -91,4 +90,13 @@ public abstract class ClickListener implements View.OnClickListener {
 
     }
 
+    /**
+     * @param view
+     * @param message
+     */
+    public static void snackMessage(View view, String message) {
+
+        Snackbar.make(view, message, Toast.LENGTH_SHORT).show();
+
+    }
 }
