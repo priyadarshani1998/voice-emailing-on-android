@@ -24,6 +24,7 @@
         </activity>
         <activity
             android:name=".WelcomePage"
+            android:noHistory="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="Voice Based E-Mail"
             android:theme="@style/FullscreenTheme">

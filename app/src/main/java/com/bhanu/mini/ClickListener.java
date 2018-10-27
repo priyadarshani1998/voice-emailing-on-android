@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
-import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -39,7 +39,7 @@ public abstract class ClickListener implements View.OnClickListener {
 
                 } catch (ActivityNotFoundException a) {
 
-                    snackMessage(view,"Oops! Your device doesn't support Speech to Text");
+                    toastMessage(Activity,"Oops! Your device doesn't support Speech to Text");
 
                 }
             }
@@ -61,7 +61,7 @@ public abstract class ClickListener implements View.OnClickListener {
 
             for (String result : results) {
 
-                if (!result.equalsIgnoreCase("clean")) {
+                if (!results.get(0).equalsIgnoreCase("clean")) {
                     try {
 
                         editText.setText(result);
@@ -91,13 +91,4 @@ public abstract class ClickListener implements View.OnClickListener {
 
     }
 
-    /**
-     * @param view
-     * @param message
-     */
-    public static void snackMessage(View view, String message) {
-
-        Snackbar.make(view, message, Toast.LENGTH_SHORT).show();
-
-    }
 }
