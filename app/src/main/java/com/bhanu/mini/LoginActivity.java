@@ -2,13 +2,19 @@ package com.bhanu.mini;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.os.Build;
+import android.os.Handler;
 import android.os.StrictMode;
+import android.speech.RecognizerIntent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -20,15 +26,13 @@ import javax.mail.*;
 
 public class LoginActivity extends AppCompatActivity {
 
-    final int EMAIL_VOICE_CODE = 100;
-    final int PASSWORD_VOICE_CODE = 200;
+    Activity loginActivity;
     private Button btnSubmit;
     public EditText editTxtFrom, editTxtPwd;
     LinearLayout loginForm;
     String from = null, password = null;
-    Activity loginActivity;
     SendMailSSL SendMailSSL;
-    View view;
+
 
     Session authSession = null;
 
@@ -40,7 +44,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(com.bhanu.mini.R.layout.activity_login);
         loginActivity = LoginActivity.this;
         SendMailSSL = new SendMailSSL();
-        view = findViewById(R.id.login_form);
+
+        getSupportActionBar().setIcon(com.bhanu.mini.R.drawable.ic_action_name2);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         if (Build.VERSION.SDK_INT > 9) {
 
@@ -61,12 +67,12 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Already Logged in.!!", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(), VoiceEmailActivity.class);
             startActivity(intent);
-        } else
+        } else {
             loginForm.setVisibility(View.VISIBLE);
+        }
 
-
-        ClickListener.inputClick(editTxtFrom, loginActivity, EMAIL_VOICE_CODE);
-        ClickListener.inputClick(editTxtPwd, loginActivity, PASSWORD_VOICE_CODE);
+        ClickListener.inputClick(editTxtFrom, loginActivity, 100);
+        ClickListener.inputClick(editTxtPwd, loginActivity, 200);
 
 
         btnSubmit.setOnClickListener(new OnClickListener() {
@@ -110,21 +116,19 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case EMAIL_VOICE_CODE:
+            case 100:
                 ClickListener.setVoiceResult(loginActivity, editTxtFrom, resultCode, data);
-                from = editTxtFrom.getText().toString();
                 break;
-
-            case PASSWORD_VOICE_CODE:
+            case 200:
                 ClickListener.setVoiceResult(loginActivity, editTxtPwd, resultCode, data);
-                password = editTxtPwd.getText().toString();
                 break;
         }
     }
-
 }
+

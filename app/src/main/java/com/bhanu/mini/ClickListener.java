@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -22,15 +23,18 @@ public abstract class ClickListener implements View.OnClickListener {
      */
     public static void inputClick(EditText editText, final Activity Activity, final int code) {
 
+
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent voiceInput = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-                voiceInput.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+                voiceInput.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                voiceInput.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speech recognition");
+                voiceInput.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
 
                 try {
+                    snackMessage(view, "input  click");
+
                     Activity.startActivityForResult(voiceInput, code);
 
                 } catch (ActivityNotFoundException a) {
@@ -49,6 +53,7 @@ public abstract class ClickListener implements View.OnClickListener {
      * @param data
      */
     public static void setVoiceResult(final Activity activity, EditText editText, int resultCode, Intent data) {
+        toastMessage(activity,"setting voice");
 
         if (resultCode == RESULT_OK && null != data) {
 
