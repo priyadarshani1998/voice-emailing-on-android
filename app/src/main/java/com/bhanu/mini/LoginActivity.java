@@ -33,9 +33,6 @@ public class LoginActivity extends AppCompatActivity {
     String from = null, password = null;
     SendMailSSL SendMailSSL;
 
-
-    Session authSession = null;
-
     @SuppressLint("WrongViewCast")
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,12 +82,11 @@ public class LoginActivity extends AppCompatActivity {
                         from = editTxtFrom.getText().toString();
                         password = editTxtPwd.getText().toString();
 
-                        authSession = SendMailSSL.authenticate(loginActivity, from, password);
+                        SendMailSSL.session  = SendMailSSL.authenticate(loginActivity, from, password);
                         SendMailSSL.fromEmail = from;
-                        SendMailSSL.session = authSession;
                         Toast.makeText(getApplicationContext(), "Authenticating, We respect your privacy", Toast.LENGTH_LONG).show();
                         try {
-                            if (authSession != null) {
+                            if (SendMailSSL.session  != null) {
                                 Intent mailActivity = new Intent(LoginActivity.this, VoiceEmailActivity.class);
                                 mailActivity.putExtra("FROM", from);
                                 startActivity(mailActivity);
