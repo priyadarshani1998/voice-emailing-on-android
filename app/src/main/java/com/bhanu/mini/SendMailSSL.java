@@ -130,14 +130,14 @@ public class SendMailSSL {
         try {
             Properties properties = System.getProperties();
 
-            if (userName.contains("gmail")) {
+            if (userName.contains("gmail.com")) {
 
                 properties.put("mail.smtp.auth", "true");
                 properties.put("mail.smtp.starttls.enable", "true");
                 properties.put("mail.smtp.host", "smtp.gmail.com");
                 properties.put("mail.smtp.port", "587");
 
-            } else if (userName.contains("yahoo")) {
+            } else if (userName.contains("yahoo.co")) {
 
                 packageName = "com.yahoo.mobile.client.android.mail";
 
@@ -153,11 +153,12 @@ public class SendMailSSL {
                     return new PasswordAuthentication(userName, password);//change accordingly
                 }
             });
-
+            throw new AuthenticationFailedException();
         } catch (Exception e) {
             Toast.makeText(Activity.getApplicationContext(), "Email Could not authenticated" + e.getMessage(), Toast.LENGTH_LONG)
                     .show();
         }
+
         //Get the session object
         return this.session;
     }
