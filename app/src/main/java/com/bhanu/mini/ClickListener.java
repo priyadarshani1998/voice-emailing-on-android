@@ -45,6 +45,26 @@ public abstract class ClickListener implements View.OnClickListener {
         });
     }
 
+
+    public static void setVoiceNavigate(final Activity activity,Intent intent, int resultCode, Intent data) {
+
+        if (resultCode == RESULT_OK && null != data) {
+
+            ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+            for (String result : results) {
+//!results.get(0).equalsIgnoreCase("login")||
+                if (true) {
+                    try {
+                        toastMessage(activity,"Could convert voice to text");
+                    } catch (Exception e) {
+
+                        toastMessage(activity,"Couldn't convert voice to text");
+                    }
+                }
+            }
+        }
+    }
     /**
      * @param activity
      * @param editText
@@ -52,7 +72,6 @@ public abstract class ClickListener implements View.OnClickListener {
      * @param data
      */
     public static void setVoiceResult(final Activity activity, EditText editText, int resultCode, Intent data) {
-        toastMessage(activity,"setting voice");
 
         if (resultCode == RESULT_OK && null != data) {
 
@@ -68,16 +87,12 @@ public abstract class ClickListener implements View.OnClickListener {
                     } catch (Exception e) {
 
                         toastMessage(activity,"Couldn't convert voice to text");
-
                     }
                 } else {
                     editText.setText("");
                 }
-
             }
-
         }
-
     }
 
     /**
@@ -87,7 +102,6 @@ public abstract class ClickListener implements View.OnClickListener {
     public static void toastMessage(final Activity activity, String message) {
 
         Toast.makeText(activity.getApplicationContext(), message , Toast.LENGTH_LONG).show();
-
     }
 
     /**
@@ -97,6 +111,5 @@ public abstract class ClickListener implements View.OnClickListener {
     public static void snackMessage(View view, String message) {
 
         Snackbar.make(view, message, Toast.LENGTH_SHORT).show();
-
     }
 }
