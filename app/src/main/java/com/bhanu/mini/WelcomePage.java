@@ -25,16 +25,22 @@ public class WelcomePage extends Activity {
 
         goTo = (Button) findViewById(R.id.goToLogin);
 
-        goTo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+//        goTo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Intent voiceInput = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+//                voiceInput.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+//                startActivityForResult(voiceInput, 300);
+//            }
+//        });
 
-                Intent voiceInput = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                voiceInput.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
-                startActivityForResult(voiceInput, 300);
-            }
-        });
+    }
 
+    public void goToLogin(View View) {
+        Intent login = new Intent(WelcomePage.this, LoginActivity.class);
+
+        startActivity(login);
     }
 
     @Override

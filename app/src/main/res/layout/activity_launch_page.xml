@@ -44,6 +44,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="goToLogin"
                 android:drawableLeft="@drawable/user"
                 android:drawableStart="@drawable/user"
                 android:drawablePadding="-15dp"

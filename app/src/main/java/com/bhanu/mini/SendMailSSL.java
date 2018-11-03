@@ -153,7 +153,7 @@ public class SendMailSSL {
                     return new PasswordAuthentication(userName, password);//change accordingly
                 }
             });
-            throw new AuthenticationFailedException();
+
         } catch (Exception e) {
             Toast.makeText(Activity.getApplicationContext(), "Email Could not authenticated" + e.getMessage(), Toast.LENGTH_LONG)
                     .show();
