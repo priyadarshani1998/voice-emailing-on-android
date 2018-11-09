@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import javax.mail.*;
+import javax.mail.Store;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -59,6 +60,8 @@ public class LoginActivity extends AppCompatActivity {
         btnSubmit = (Button) findViewById(com.bhanu.mini.R.id.btn_sbt);
 
         // Check if UserResponse is Already Logged In
+        Store store = SendMailSSL.session.getStore();
+        boolen isConnected = store.connect();
         if (SendMailSSL.session != null && SaveSharedPreference.getLoggedStatus(getApplicationContext())) {
             SaveSharedPreference.setLoggedIn(getApplicationContext(), true);
             Toast.makeText(getApplicationContext(), "Already Logged in.!!", Toast.LENGTH_LONG).show();
