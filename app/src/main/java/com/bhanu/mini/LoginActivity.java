@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.sun.mail.smtp.SMTPTransport;
+
 import javax.mail.*;
 
 public class LoginActivity extends AppCompatActivity {
@@ -68,7 +70,26 @@ public class LoginActivity extends AppCompatActivity {
             loginForm.setVisibility(View.VISIBLE);
         }
 
-        ClickListener.inputClick(editTxtFrom, loginActivity, 100);
+        editTxtFrom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent voiceInput = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+                voiceInput.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+                try {
+                    ClickListener.snackMessage(view, "input  click");
+
+                    startActivityForResult(voiceInput, 100);
+
+                } catch (ActivityNotFoundException a) {
+
+                    ClickListener.toastMessage(loginActivity,"Oops! Your device doesn't support Speech to Text");
+
+                }
+            }
+        });
+
+//        ClickListener.inputClick(editTxtFrom, loginActivity, 100);
         ClickListener.inputClick(editTxtPwd, loginActivity, 200);
 
 
@@ -84,8 +105,15 @@ public class LoginActivity extends AppCompatActivity {
 
                         SendMailSSL.session  = SendMailSSL.authenticate(loginActivity, from, password);
                         SendMailSSL.fromEmail = from;
-                        Toast.makeText(getApplicationContext(), "Authenticating, We respect your privacy", Toast.LENGTH_LONG).show();
+
+
                         try {
+
+                            SMTPTransport transport = (SMTPTransport)SendMailSSL.session.getTransport("smtp");
+                            transport.getLastReturnCode();
+                            Toast.makeText(getApplicationContext(), "Authenticating, We respect your privacy", Toast.LENGTH_LONG).show();
+                            System.out.println(transport.getLastReturnCode());
+                            System.out.println(transport.getLastServerResponse());
                             if (SendMailSSL.session  != null) {
                                 Intent mailActivity = new Intent(LoginActivity.this, VoiceEmailActivity.class);
                                 mailActivity.putExtra("FROM", from);
@@ -115,6 +143,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
+
         switch (requestCode) {
             case 100:
                 ClickListener.setVoiceResult(loginActivity, editTxtFrom, resultCode, data);

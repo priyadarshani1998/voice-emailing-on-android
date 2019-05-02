@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.Snackbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -23,7 +21,6 @@ public abstract class ClickListener implements View.OnClickListener {
      * @param code
      */
     public static void inputClick(EditText editText, final Activity Activity, final int code) {
-
 
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,25 +43,6 @@ public abstract class ClickListener implements View.OnClickListener {
     }
 
 
-    public static void setVoiceNavigate(final Activity activity,Intent intent, int resultCode, Intent data) {
-
-        if (resultCode == RESULT_OK && null != data) {
-
-            ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-
-            for (String result : results) {
-//!results.get(0).equalsIgnoreCase("login")||
-                if (true) {
-                    try {
-                        toastMessage(activity,"Could convert voice to text");
-                    } catch (Exception e) {
-
-                        toastMessage(activity,"Couldn't convert voice to text");
-                    }
-                }
-            }
-        }
-    }
     /**
      * @param activity
      * @param editText
@@ -72,12 +50,15 @@ public abstract class ClickListener implements View.OnClickListener {
      * @param data
      */
     public static void setVoiceResult(final Activity activity, EditText editText, int resultCode, Intent data) {
+        toastMessage(activity,"setting voice");
 
         if (resultCode == RESULT_OK && null != data) {
 
             ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
             for (String result : results) {
+
+               System.out.println("set Voice Result");
 
                 if (!results.get(0).equalsIgnoreCase("clean")) {
                     try {
